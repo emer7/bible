@@ -36,12 +36,14 @@ export const App = () => {
   };
 
   const handleCrossReference = (book1, chapter1, verse1) => () => (
+    topic,
     book2,
     chapter2,
     verse2
   ) => {
     console.log(1, book1, chapter1, verse1);
     console.log(2, book2, chapter2, verse2);
+    console.log(topic);
   };
 
   const handleVerseClick = (e, book, chapter, verse) => {
