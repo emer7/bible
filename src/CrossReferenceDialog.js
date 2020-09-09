@@ -3,6 +3,12 @@ import { Dialog, DialogContent, Button } from '@material-ui/core';
 
 import { VerseSelector } from './VerseSelector';
 
+const ConfirmButton = ({ book, chapter, verse }) => {
+  return (
+    <Button onClick={() => console.log(book, chapter, verse)}>Confirm</Button>
+  );
+};
+
 export const CrossReferenceDialog = ({
   open,
   handleCloseCrossReferenceDialog,
@@ -20,6 +26,7 @@ export const CrossReferenceDialog = ({
           <>
             <VerseSelector
               handleVerseClick={() => {}}
+              buttonRender={ConfirmButton}
             />
           </>
         ) : (

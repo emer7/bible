@@ -7,7 +7,10 @@ import esv from './ESV.json';
 
 import { cannonArr } from './consts';
 
-export const VerseSelector = ({ handleVerseClick }) => {
+export const VerseSelector = ({
+  handleVerseClick,
+  buttonRender: RenderedView,
+}) => {
   const [book, setBook] = useState('Genesis');
   const [chapter, setChapter] = useState('1');
   const [verse, setVerse] = useState('1');
@@ -55,6 +58,9 @@ export const VerseSelector = ({ handleVerseClick }) => {
               </MenuItem>
             ))}
         </Select>
+        {RenderedView && (
+          <RenderedView book={book} chapter={chapter} verse={verse} />
+        )}
       </div>
       <div>
         <Verse
