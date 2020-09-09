@@ -5,7 +5,9 @@ import { VerseSelector } from './VerseSelector';
 
 const ConfirmButton = ({ book, chapter, verse }) => {
   return (
-    <Button onClick={() => console.log(book, chapter, verse)}>Confirm</Button>
+    <Button onClick={() => console.log(2, book, chapter, verse)}>
+      Confirm
+    </Button>
   );
 };
 

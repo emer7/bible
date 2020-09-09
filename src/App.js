@@ -24,9 +24,14 @@ export const App = () => {
     setIsDialogOpen(false);
   };
 
+  const handleVerseClick = (e, book, chapter, verse) => {
+    handleOpenPopupMenu(e);
+    console.log(1, book, chapter, verse);
+  };
+
   return (
     <div>
-      <VerseSelector handleVerseClick={handleOpenPopupMenu} />
+      <VerseSelector handleVerseClick={handleVerseClick} />
       <Popupmenu
         anchorEl={anchorEl}
         handleClosePopupMenu={handleClosePopupMenu}

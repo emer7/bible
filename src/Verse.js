@@ -8,8 +8,12 @@ const SpanWithPointer = styled('span')({
 });
 
 export const Verse = ({ book, chapter, verse, handleVerseClick }) => {
+  const handleOnClick = e => {
+    handleVerseClick(e, book, chapter, verse);
+  };
+
   return (
-    <SpanWithPointer onClick={handleVerseClick}>
+    <SpanWithPointer onClick={handleOnClick}>
       {verse} {esv[book][chapter][verse]}
     </SpanWithPointer>
   );
