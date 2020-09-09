@@ -14,6 +14,11 @@ export const App = () => {
     '{}'
   );
 
+  const [
+    crossReferencesHandler,
+    setCrossReferencesHandler,
+  ] = React.useState(() => {});
+
   const handleOpenPopupMenu = e => {
     setAnchorEl(e.currentTarget);
   };
@@ -30,9 +35,18 @@ export const App = () => {
     setIsDialogOpen(false);
   };
 
+  const handleCrossReference = (book1, chapter1, verse1) => () => (
+    book2,
+    chapter2,
+    verse2
+  ) => {
+    console.log(1, book1, chapter1, verse1);
+    console.log(2, book2, chapter2, verse2);
+  };
+
   const handleVerseClick = (e, book, chapter, verse) => {
     handleOpenPopupMenu(e);
-    console.log(1, book, chapter, verse);
+    setCrossReferencesHandler(handleCrossReference(book, chapter, verse));
   };
 
   return (
@@ -46,6 +60,7 @@ export const App = () => {
       <CrossReferenceDialog
         open={isDialogOpen}
         handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
+        handleCrossReference={crossReferencesHandler}
       />
     </div>
   );

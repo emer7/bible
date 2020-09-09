@@ -3,17 +3,18 @@ import { Dialog, DialogContent, Button } from '@material-ui/core';
 
 import { VerseSelector } from './VerseSelector';
 
-const ConfirmButton = ({ book, chapter, verse }) => {
-  return (
-    <Button onClick={() => console.log(2, book, chapter, verse)}>
-      Confirm
-    </Button>
-  );
+const ConfirmButton = handleCrossReference => ({ book, chapter, verse }) => {
+  const handleOnClick = () => {
+    handleCrossReference(book, chapter, verse);
+  };
+
+  return <Button onClick={handleOnClick}>Confirm</Button>;
 };
 
 export const CrossReferenceDialog = ({
   open,
   handleCloseCrossReferenceDialog,
+  handleCrossReference,
 }) => {
   const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
 
@@ -28,7 +29,7 @@ export const CrossReferenceDialog = ({
           <>
             <VerseSelector
               handleVerseClick={() => {}}
-              buttonRender={ConfirmButton}
+              buttonRender={ConfirmButton(handleCrossReference)}
             />
           </>
         ) : (
