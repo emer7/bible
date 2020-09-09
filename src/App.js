@@ -7,6 +7,12 @@ import { CrossReferenceDialog } from './CrossReferenceDialog';
 export const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
+    '{}'
+  );
+  const [crossReferencesByVerse, setCrossReferencesByVerse] = React.useState(
+    '{}'
+  );
 
   const handleOpenPopupMenu = e => {
     setAnchorEl(e.currentTarget);
