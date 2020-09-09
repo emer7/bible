@@ -4,14 +4,16 @@ import { VerseSelector } from './VerseSelector';
 import { Popupmenu } from './PopupMenu';
 import { CrossReferenceDialog } from './CrossReferenceDialog';
 
+import { removeDuplicate } from './utils';
+
 export const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
-    '{}'
+    {}
   );
   const [crossReferencesByVerse, setCrossReferencesByVerse] = React.useState(
-    '{}'
+    {}
   );
 
   const [
@@ -41,9 +43,65 @@ export const App = () => {
     chapter2,
     verse2
   ) => {
-    console.log(1, book1, chapter1, verse1);
-    console.log(2, book2, chapter2, verse2);
-    console.log(topic);
+    //cfByTopic
+    setCrossReferencesByTopic(crossReferencesByTopic => {
+      const newCrossReferencesByTopic = { ...crossReferencesByTopic };
+
+      newCrossReferencesByTopic[topic] = {
+        ...(newCrossReferencesByTopic[topic] || {}),
+      };
+
+      newCrossReferencesByTopic[topic][book1] = {
+        ...(newCrossReferencesByTopic[topic][book1] || {}),
+      };
+      newCrossReferencesByTopic[topic][book1][chapter1] = [
+        ...(newCrossReferencesByTopic[topic][book1][chapter1] || []),
+        verse1,
+      ].filter(removeDuplicate);
+
+      newCrossReferencesByTopic[topic][book2] = {
+        ...(newCrossReferencesByTopic[topic][book2] || {}),
+      };
+      newCrossReferencesByTopic[topic][book2][chapter2] = [
+        ...(newCrossReferencesByTopic[topic][book2][chapter2] || []),
+        verse2,
+      ].filter(removeDuplicate);
+
+      console.log(newCrossReferencesByTopic);
+
+      return newCrossReferencesByTopic;
+    });
+
+    //cfByVerse
+    setCrossReferencesByVerse(crossReferencesByVerse => {
+      const newCrossReferencesByVerse = { ...crossReferencesByVerse };
+
+      newCrossReferencesByVerse[book1] = {
+        ...(newCrossReferencesByVerse[book1] || {}),
+      };
+      newCrossReferencesByVerse[book1][chapter1] = {
+        ...(newCrossReferencesByVerse[book1][chapter1] || {}),
+      };
+      newCrossReferencesByVerse[book1][chapter1][verse1] = [
+        ...(newCrossReferencesByVerse[book1][chapter1][verse1] || []),
+        topic,
+      ].filter(removeDuplicate);
+
+      newCrossReferencesByVerse[book2] = {
+        ...(newCrossReferencesByVerse[book2] || {}),
+      };
+      newCrossReferencesByVerse[book2][chapter2] = {
+        ...(newCrossReferencesByVerse[book2][chapter2] || {}),
+      };
+      newCrossReferencesByVerse[book2][chapter2][verse2] = [
+        ...(newCrossReferencesByVerse[book2][chapter2][verse2] || []),
+        topic,
+      ].filter(removeDuplicate);
+
+      console.log(newCrossReferencesByVerse);
+
+      return newCrossReferencesByVerse;
+    });
   };
 
   const handleVerseClick = (e, book, chapter, verse) => {
