@@ -7,7 +7,7 @@ import esv from './ESV.json';
 
 import { cannonArr } from './consts';
 
-export const VerseSelector = () => {
+export const VerseSelector = ({ handleVerseClick }) => {
   const [book, setBook] = useState('Genesis');
   const [chapter, setChapter] = useState('1');
   const [verse, setVerse] = useState('1');
@@ -57,7 +57,12 @@ export const VerseSelector = () => {
         </Select>
       </div>
       <div>
-        <Verse book={book} chapter={chapter} verse={verse} />
+        <Verse
+          book={book}
+          chapter={chapter}
+          verse={verse}
+          handleVerseClick={handleVerseClick}
+        />
       </div>
     </>
   );
