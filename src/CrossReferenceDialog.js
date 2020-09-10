@@ -27,7 +27,7 @@ export const CrossReferenceDialog = ({
   handleCrossReference,
 }) => {
   const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
-  const [topic, setTopic] = React.useState(new Date().getTime().toString());
+  const [topic, setTopic] = React.useState('New');
 
   const handleOpenSelector = () => {
     setIsSelectorOpen(true);
@@ -43,13 +43,14 @@ export const CrossReferenceDialog = ({
         {isSelectorOpen ? (
           <>
             <Select value={topic} onChange={handleTopicChange}>
-              <MenuItem value={topic} disabled>
-                Default
-              </MenuItem>
+              <MenuItem value="New">New</MenuItem>
             </Select>
             <VerseSelector
               handleVerseClick={() => {}}
-              buttonRender={ConfirmButton(topic, handleCrossReference)}
+              buttonRender={ConfirmButton(
+                topic === 'New' ? new Date().getTime().toString() : topic,
+                handleCrossReference
+              )}
             />
           </>
         ) : (
