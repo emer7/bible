@@ -76,6 +76,7 @@ const CrossReferenceDialogContent = ({
                       book={book}
                       chapter={chapter}
                       verse={verse}
+                      handleVerseClick={() => {}}
                     />
                   ))}
                 </CardContent>
