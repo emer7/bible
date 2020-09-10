@@ -22,12 +22,15 @@ const ConfirmButton = (topic, handleCrossReference) => ({
 };
 
 const CrossReferenceDialogContent = ({
+  referrerVerseAddress,
   topics,
   handleCrossReference,
   handleReferredVerseChange,
 }) => {
   const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
   const [topic, setTopic] = React.useState('New');
+
+  const { book, chapter, verse } = referrerVerseAddress;
 
   const handleOpenSelector = () => {
     setIsSelectorOpen(true);
@@ -43,30 +46,33 @@ const CrossReferenceDialogContent = ({
   };
 
   return (
-      <DialogContent>
-        {isSelectorOpen ? (
-          <>
-            <Select value={topic} onChange={handleTopicChange}>
+    <DialogContent>
+      {isSelectorOpen ? (
+        <>
+          <Select value={topic} onChange={handleTopicChange}>
             <MenuItem value="New">New</MenuItem>
-              {topics.map(topicOption => (
-                <MenuItem key={topicOption} value={topicOption}>
-                  {topicOption}
-                </MenuItem>
-              ))}
-            </Select>
-            <VerseSelector
-              handleVerseClick={() => {}}
+            {topics.map(topicOption => (
+              <MenuItem key={topicOption} value={topicOption}>
+                {topicOption}
+              </MenuItem>
+            ))}
+          </Select>
+          <VerseSelector
+            initialBook={book}
+            initialChapter={chapter}
+            initialVerse={verse}
+            handleVerseClick={() => {}}
             handleVerseAddressChange={handleVerseAddressChange}
-              buttonRender={ConfirmButton(
-                topic === 'New' ? new Date().getTime().toString() : topic,
-                handleCrossReference
-              )}
-            />
-          </>
-        ) : (
-          <Button onClick={handleOpenSelector}>+</Button>
-        )}
-      </DialogContent>
+            buttonRender={ConfirmButton(
+              topic === 'New' ? new Date().getTime().toString() : topic,
+              handleCrossReference
+            )}
+          />
+        </>
+      ) : (
+        <Button onClick={handleOpenSelector}>+</Button>
+      )}
+    </DialogContent>
   );
 };
 
@@ -77,5 +83,5 @@ export const CrossReferenceDialog = ({
 }) => (
   <Dialog open={open} onClose={handleCloseCrossReferenceDialog}>
     <CrossReferenceDialogContent {...contentProps} />
-    </Dialog>
-  );
+  </Dialog>
+);

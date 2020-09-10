@@ -8,13 +8,16 @@ import esv from './ESV.json';
 import { cannonArr } from './consts';
 
 export const VerseSelector = ({
+  initialBook,
+  initialChapter,
+  initialVerse,
   handleVerseClick,
   handleVerseAddressChange,
   buttonRender: RenderedView,
 }) => {
-  const [book, setBook] = useState('Genesis');
-  const [chapter, setChapter] = useState('1');
-  const [verse, setVerse] = useState('1');
+  const [book, setBook] = useState(initialBook || 'Genesis');
+  const [chapter, setChapter] = useState(initialChapter || '1');
+  const [verse, setVerse] = useState(initialVerse || '1');
 
   const handleBookChange = e => {
     setBook(e.target.value);

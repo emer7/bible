@@ -116,6 +116,7 @@ export const App = () => {
   const handleReferrerVerseClick = (e, verseAddress) => {
     handleOpenPopupMenu(e);
     setReferrerVerseAddress(verseAddress);
+    setReferredVerseAddress(verseAddress);
   };
 
   const handleReferredVerseChange = verseAddress => {
@@ -136,6 +137,7 @@ export const App = () => {
       />
       <CrossReferenceDialog
         open={isDialogOpen}
+        referrerVerseAddress={referrerVerseAddress}
         topics={[
           ...((crossReferencesByVerse &&
             crossReferencesByVerse[referrerBook] &&
