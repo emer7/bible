@@ -21,10 +21,8 @@ const ConfirmButton = (topic, handleCrossReference) => ({
   return <Button onClick={handleOnClick}>Confirm</Button>;
 };
 
-export const CrossReferenceDialog = ({
-  open,
+const CrossReferenceDialogContent = ({
   topics,
-  handleCloseCrossReferenceDialog,
   handleCrossReference,
   handleReferredVerseChange,
 }) => {
@@ -40,7 +38,6 @@ export const CrossReferenceDialog = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleCloseCrossReferenceDialog}>
       <DialogContent>
         {isSelectorOpen ? (
           <>
@@ -65,6 +62,15 @@ export const CrossReferenceDialog = ({
           <Button onClick={handleOpenSelector}>+</Button>
         )}
       </DialogContent>
-    </Dialog>
   );
 };
+
+export const CrossReferenceDialog = ({
+  open,
+  handleCloseCrossReferenceDialog,
+  ...contentProps
+}) => (
+  <Dialog open={open} onClose={handleCloseCrossReferenceDialog}>
+    <CrossReferenceDialogContent {...contentProps} />
+    </Dialog>
+  );
