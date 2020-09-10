@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardContent,
   IconButton,
+  TextField,
 } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 
@@ -36,6 +37,7 @@ const CrossReferenceDialogContent = ({
   handleReferredVerseChange,
   handleDeleteCrossReference,
   handleDeleteTopic,
+  handleRenameTopic,
   topics,
   crossReferencesByReferrer,
 }) => {
@@ -81,7 +83,17 @@ const CrossReferenceDialogContent = ({
             <Grid item key={topic}>
               <Card>
                 <CardHeader
-                title={topic}
+                  title={
+                    <TextField
+                      defaultValue={topic}
+                      onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                          handleRenameTopic(topic, e.target.value);
+                        }
+                      }}
+                    />
+                  }
+                  subheader="Press Enter to rename"
                   action={
                     <IconButton onClick={handleCloseClick}>
                       <CloseIcon />
