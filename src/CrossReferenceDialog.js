@@ -37,6 +37,11 @@ const CrossReferenceDialogContent = ({
     setTopic(e.target.value);
   };
 
+  const handleVerseAddressChange = verseAddress => {
+    handleReferredVerseChange(verseAddress);
+    setTopic('New');
+  };
+
   return (
       <DialogContent>
         {isSelectorOpen ? (
@@ -51,7 +56,7 @@ const CrossReferenceDialogContent = ({
             </Select>
             <VerseSelector
               handleVerseClick={() => {}}
-              handleVerseAddressChange={handleReferredVerseChange}
+            handleVerseAddressChange={handleVerseAddressChange}
               buttonRender={ConfirmButton(
                 topic === 'New' ? new Date().getTime().toString() : topic,
                 handleCrossReference
