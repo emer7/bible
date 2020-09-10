@@ -50,6 +50,10 @@ const CrossReferenceDialogContent = ({
     setIsSelectorOpen(true);
   };
 
+  const handleCloseSelector = () => {
+    setIsSelectorOpen(false);
+  };
+
   const handleTopicChange = e => {
     setTopic(e.target.value);
   };
@@ -118,6 +122,15 @@ const CrossReferenceDialogContent = ({
         <Grid item>
           {isSelectorOpen ? (
             <Card>
+              <CardHeader
+                title="New Reference"
+                subheader="Select topic and verse"
+                action={
+                  <IconButton onClick={handleCloseSelector}>
+                    <CloseIcon />
+                  </IconButton>
+                }
+              />
               <CardContent>
                 <Select value={topic} onChange={handleTopicChange}>
                   <MenuItem value="New">New</MenuItem>
