@@ -10,15 +10,26 @@ import { Button } from '@material-ui/core';
 export const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
+  const [referredVerseAddress, setReferredVerseAddress] = React.useState({});
+  const {
+    book: referrerBook,
+    chapter: referrerChapter,
+    verse: referrerVerse,
+  } = referrerVerseAddress;
+  const {
+    book: referredBook,
+    chapter: referredChapter,
+    verse: referredVerse,
+  } = referredVerseAddress;
+
   const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
     JSON.parse(localStorage.getItem('cfByTopic') || '{}')
   );
   const [crossReferencesByVerse, setCrossReferencesByVerse] = React.useState(
     JSON.parse(localStorage.getItem('cfByVerse') || '{}')
   );
-  const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
-  const [referredVerseAddress, setReferredVerseAddress] = React.useState({});
-
   const handleLocalStorage = () => {
     localStorage.setItem('cfByVerse', JSON.stringify(crossReferencesByVerse));
     localStorage.setItem('cfByTopic', JSON.stringify(crossReferencesByTopic));
@@ -41,17 +52,6 @@ export const App = () => {
   };
 
   const handleCrossReference = topic => {
-    const {
-      book: referrerBook,
-      chapter: referrerChapter,
-      verse: referrerVerse,
-    } = referrerVerseAddress;
-    const {
-      book: referredBook,
-      chapter: referredChapter,
-      verse: referredVerse,
-    } = referredVerseAddress;
-    
     //cfByTopic
     const newCrossReferencesByTopic = { ...crossReferencesByTopic };
 
@@ -136,6 +136,22 @@ export const App = () => {
       />
       <CrossReferenceDialog
         open={isDialogOpen}
+        topics={[
+          ...((crossReferencesByVerse &&
+            crossReferencesByVerse[referrerBook] &&
+            crossReferencesByVerse[referrerBook][referrerChapter] &&
+            crossReferencesByVerse[referrerBook][referrerChapter][
+              referrerVerse
+            ]) ||
+            []),
+          ...((crossReferencesByVerse &&
+            crossReferencesByVerse[referredBook] &&
+            crossReferencesByVerse[referredBook][referredChapter] &&
+            crossReferencesByVerse[referredBook][referredChapter][
+              referredVerse
+            ]) ||
+            []),
+        ].filter(removeDuplicate)}
         handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
         handleCrossReference={handleCrossReference}
         handleReferredVerseChange={handleReferredVerseChange}

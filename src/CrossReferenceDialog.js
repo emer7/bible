@@ -23,6 +23,7 @@ const ConfirmButton = (topic, handleCrossReference) => ({
 
 export const CrossReferenceDialog = ({
   open,
+  topics,
   handleCloseCrossReferenceDialog,
   handleCrossReference,
   handleReferredVerseChange,
@@ -44,7 +45,12 @@ export const CrossReferenceDialog = ({
         {isSelectorOpen ? (
           <>
             <Select value={topic} onChange={handleTopicChange}>
-              <MenuItem value="New">New</MenuItem>
+              <MenuItem value="New">New</MenuItem>{' '}
+              {topics.map(topicOption => (
+                <MenuItem key={topicOption} value={topicOption}>
+                  {topicOption}
+                </MenuItem>
+              ))}
             </Select>
             <VerseSelector
               handleVerseClick={() => {}}
