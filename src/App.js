@@ -5,7 +5,7 @@ import { Popupmenu } from './PopupMenu';
 import { CrossReferenceDialog } from './CrossReferenceDialog';
 
 import { removeDuplicate, flatMapBibleObjectTree } from './utils';
-import { Button } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 
 export const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -226,7 +226,7 @@ export const App = () => {
   };
 
   return (
-    <div>
+    <Container>
       <Button onClick={handleLocalStorage}>Save</Button>
       <VerseSelector
         handleVerseClick={handleReferrerVerseClick}
@@ -272,7 +272,7 @@ export const App = () => {
           []
         ).map(topic => ({ topic, content: crossReferencesByTopic[topic] }))}
       />
-    </div>
+    </Container>
   );
 };
 
