@@ -138,6 +138,8 @@ export const App = () => {
       <CrossReferenceDialog
         open={isDialogOpen}
         referrerVerseAddress={referrerVerseAddress}
+        crossReferencesByVerse={crossReferencesByVerse}
+        crossReferencesByTopic={crossReferencesByTopic}
         topics={[
           ...((crossReferencesByVerse &&
             crossReferencesByVerse[referrerBook] &&
@@ -154,6 +156,15 @@ export const App = () => {
             ]) ||
             []),
         ].filter(removeDuplicate)}
+        crossReferencesByReferrer={(
+          (crossReferencesByVerse &&
+            crossReferencesByVerse[referrerBook] &&
+            crossReferencesByVerse[referrerBook][referrerChapter] &&
+            crossReferencesByVerse[referrerBook][referrerChapter][
+              referrerVerse
+            ]) ||
+          []
+        ).map(topic => ({ topic, content: crossReferencesByTopic[topic] }))}
         handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
         handleCrossReference={handleCrossReference}
         handleReferredVerseChange={handleReferredVerseChange}

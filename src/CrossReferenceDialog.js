@@ -5,9 +5,16 @@ import {
   Button,
   Select,
   MenuItem,
+  Card,
+  Grid,
+  CardHeader,
+  CardContent,
 } from '@material-ui/core';
 
 import { VerseSelector } from './VerseSelector';
+import { VerseWithHeading } from './Verse';
+
+import { flatMapBibleObjectTree } from './utils';
 
 const ConfirmButton = (topic, handleCrossReference) => ({
   book,
@@ -26,6 +33,7 @@ const CrossReferenceDialogContent = ({
   topics,
   handleCrossReference,
   handleReferredVerseChange,
+  crossReferencesByReferrer,
 }) => {
   const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
   const [topic, setTopic] = React.useState('New');
@@ -47,6 +55,35 @@ const CrossReferenceDialogContent = ({
 
   return (
     <DialogContent>
+      <Grid
+        container
+        direction="column"
+        justify="flex-start"
+        alignItems="stretch"
+        spacing={2}
+      >
+        {crossReferencesByReferrer.map(crossReferences => {
+          const { topic, content } = crossReferences;
+
+          return (
+            <Grid item key={topic}>
+              <Card>
+                <CardHeader title={topic} />
+                <CardContent>
+                  {flatMapBibleObjectTree(content, (book, chapter, verse) => (
+                    <VerseWithHeading
+                      key={`${book}${chapter}${verse}`}
+                      book={book}
+                      chapter={chapter}
+                      verse={verse}
+                    />
+                  ))}
+                </CardContent>
+              </Card>
+            </Grid>
+          );
+        })}
+        <Grid item>
       {isSelectorOpen ? (
         <>
           <Select value={topic} onChange={handleTopicChange}>
@@ -72,6 +109,8 @@ const CrossReferenceDialogContent = ({
       ) : (
         <Button onClick={handleOpenSelector}>+</Button>
       )}
+        </Grid>
+      </Grid>
     </DialogContent>
   );
 };

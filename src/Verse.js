@@ -18,3 +18,14 @@ export const Verse = ({ book, chapter, verse, handleVerseClick }) => {
     </SpanWithPointer>
   );
 };
+
+export const VerseWithHeading = ({ book, chapter, verse, ...props }) => {
+  return (
+    <div>
+      <div>
+        {book} {chapter}:{verse}
+      </div>
+      <Verse book={book} chapter={chapter} verse={verse} {...props} />
+    </div>
+  );
+};
