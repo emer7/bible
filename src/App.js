@@ -18,10 +18,6 @@ export const App = () => {
   );
   const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
   const [referredVerseAddress, setReferredVerseAddress] = React.useState({});
-  const [
-    crossReferencesHandler,
-    setCrossReferencesHandler,
-  ] = React.useState(() => {});
 
   const handleLocalStorage = () => {
     localStorage.setItem('cfByVerse', JSON.stringify(crossReferencesByVerse));
@@ -44,77 +40,82 @@ export const App = () => {
     setIsDialogOpen(false);
   };
 
-  const handleCrossReference = (book1, chapter1, verse1) => () => (
-    topic,
-    book2,
-    chapter2,
-    verse2
-  ) => {
+  const handleCrossReference = topic => {
+    const {
+      book: referrerBook,
+      chapter: referrerChapter,
+      verse: referrerVerse,
+    } = referrerVerseAddress;
+    const {
+      book: referredBook,
+      chapter: referredChapter,
+      verse: referredVerse,
+    } = referredVerseAddress;
+    
     //cfByTopic
-    setCrossReferencesByTopic(crossReferencesByTopic => {
-      const newCrossReferencesByTopic = { ...crossReferencesByTopic };
+    const newCrossReferencesByTopic = { ...crossReferencesByTopic };
 
-      newCrossReferencesByTopic[topic] = {
-        ...(newCrossReferencesByTopic[topic] || {}),
-      };
+    newCrossReferencesByTopic[topic] = {
+      ...(newCrossReferencesByTopic[topic] || {}),
+    };
 
-      newCrossReferencesByTopic[topic][book1] = {
-        ...(newCrossReferencesByTopic[topic][book1] || {}),
-      };
-      newCrossReferencesByTopic[topic][book1][chapter1] = [
-        ...(newCrossReferencesByTopic[topic][book1][chapter1] || []),
-        verse1,
-      ].filter(removeDuplicate);
+    newCrossReferencesByTopic[topic][referrerBook] = {
+      ...(newCrossReferencesByTopic[topic][referrerBook] || {}),
+    };
+    newCrossReferencesByTopic[topic][referrerBook][referrerChapter] = [
+      ...(newCrossReferencesByTopic[topic][referrerBook][referrerChapter] ||
+        []),
+      referrerVerse,
+    ].filter(removeDuplicate);
 
-      newCrossReferencesByTopic[topic][book2] = {
-        ...(newCrossReferencesByTopic[topic][book2] || {}),
-      };
-      newCrossReferencesByTopic[topic][book2][chapter2] = [
-        ...(newCrossReferencesByTopic[topic][book2][chapter2] || []),
-        verse2,
-      ].filter(removeDuplicate);
+    newCrossReferencesByTopic[topic][referredBook] = {
+      ...(newCrossReferencesByTopic[topic][referredBook] || {}),
+    };
+    newCrossReferencesByTopic[topic][referredBook][referredChapter] = [
+      ...(newCrossReferencesByTopic[topic][referredBook][referredChapter] ||
+        []),
+      referredVerse,
+    ].filter(removeDuplicate);
 
-      console.log(newCrossReferencesByTopic);
-
-      return newCrossReferencesByTopic;
-    });
+    console.log(newCrossReferencesByTopic);
+    setCrossReferencesByTopic(newCrossReferencesByTopic);
 
     //cfByVerse
-    setCrossReferencesByVerse(crossReferencesByVerse => {
-      const newCrossReferencesByVerse = { ...crossReferencesByVerse };
+    const newCrossReferencesByVerse = { ...crossReferencesByVerse };
 
-      newCrossReferencesByVerse[book1] = {
-        ...(newCrossReferencesByVerse[book1] || {}),
-      };
-      newCrossReferencesByVerse[book1][chapter1] = {
-        ...(newCrossReferencesByVerse[book1][chapter1] || {}),
-      };
-      newCrossReferencesByVerse[book1][chapter1][verse1] = [
-        ...(newCrossReferencesByVerse[book1][chapter1][verse1] || []),
-        topic,
-      ].filter(removeDuplicate);
+    newCrossReferencesByVerse[referrerBook] = {
+      ...(newCrossReferencesByVerse[referrerBook] || {}),
+    };
+    newCrossReferencesByVerse[referrerBook][referrerChapter] = {
+      ...(newCrossReferencesByVerse[referrerBook][referrerChapter] || {}),
+    };
+    newCrossReferencesByVerse[referrerBook][referrerChapter][referrerVerse] = [
+      ...(newCrossReferencesByVerse[referrerBook][referrerChapter][
+        referrerVerse
+      ] || []),
+      topic,
+    ].filter(removeDuplicate);
 
-      newCrossReferencesByVerse[book2] = {
-        ...(newCrossReferencesByVerse[book2] || {}),
-      };
-      newCrossReferencesByVerse[book2][chapter2] = {
-        ...(newCrossReferencesByVerse[book2][chapter2] || {}),
-      };
-      newCrossReferencesByVerse[book2][chapter2][verse2] = [
-        ...(newCrossReferencesByVerse[book2][chapter2][verse2] || []),
-        topic,
-      ].filter(removeDuplicate);
+    newCrossReferencesByVerse[referredBook] = {
+      ...(newCrossReferencesByVerse[referredBook] || {}),
+    };
+    newCrossReferencesByVerse[referredBook][referredChapter] = {
+      ...(newCrossReferencesByVerse[referredBook][referredChapter] || {}),
+    };
+    newCrossReferencesByVerse[referredBook][referredChapter][referredVerse] = [
+      ...(newCrossReferencesByVerse[referredBook][referredChapter][
+        referredVerse
+      ] || []),
+      topic,
+    ].filter(removeDuplicate);
 
-      console.log(newCrossReferencesByVerse);
-
-      return newCrossReferencesByVerse;
-    });
+    console.log(newCrossReferencesByVerse);
+    setCrossReferencesByVerse(newCrossReferencesByVerse);
   };
 
-  const handleReferrerVerseClick = (e, book, chapter, verse) => {
+  const handleReferrerVerseClick = (e, verseAddress) => {
     handleOpenPopupMenu(e);
-    setReferrerVerseAddress({ book, chapter, verse });
-    setCrossReferencesHandler(handleCrossReference(book, chapter, verse));
+    setReferrerVerseAddress(verseAddress);
   };
 
   const handleReferredVerseChange = verseAddress => {
@@ -136,7 +137,7 @@ export const App = () => {
       <CrossReferenceDialog
         open={isDialogOpen}
         handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
-        handleCrossReference={crossReferencesHandler}
+        handleCrossReference={handleCrossReference}
         handleReferredVerseChange={handleReferredVerseChange}
       />
     </div>

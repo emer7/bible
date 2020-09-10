@@ -15,7 +15,7 @@ const ConfirmButton = (topic, handleCrossReference) => ({
   verse,
 }) => {
   const handleOnClick = () => {
-    handleCrossReference(topic, book, chapter, verse);
+    handleCrossReference(topic);
   };
 
   return <Button onClick={handleOnClick}>Confirm</Button>;
