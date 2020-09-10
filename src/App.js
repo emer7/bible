@@ -5,21 +5,26 @@ import { Popupmenu } from './PopupMenu';
 import { CrossReferenceDialog } from './CrossReferenceDialog';
 
 import { removeDuplicate } from './utils';
+import { Button } from '@material-ui/core';
 
 export const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
-    {}
+    JSON.parse(localStorage.getItem('cfByTopic') || '{}')
   );
   const [crossReferencesByVerse, setCrossReferencesByVerse] = React.useState(
-    {}
+    JSON.parse(localStorage.getItem('cfByVerse') || '{}')
   );
-
   const [
     crossReferencesHandler,
     setCrossReferencesHandler,
   ] = React.useState(() => {});
+
+  const handleLocalStorage = () => {
+    localStorage.setItem('cfByVerse', JSON.stringify(crossReferencesByVerse));
+    localStorage.setItem('cfByTopic', JSON.stringify(crossReferencesByTopic));
+  };
 
   const handleOpenPopupMenu = e => {
     setAnchorEl(e.currentTarget);
@@ -111,6 +116,7 @@ export const App = () => {
 
   return (
     <div>
+      <Button onClick={handleLocalStorage}>Save</Button>
       <VerseSelector handleVerseClick={handleVerseClick} />
       <Popupmenu
         anchorEl={anchorEl}
