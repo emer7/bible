@@ -4,7 +4,7 @@ import { VerseSelector } from './VerseSelector';
 import { Popupmenu } from './PopupMenu';
 import { CrossReferenceDialog } from './CrossReferenceDialog';
 
-import { removeDuplicate } from './utils';
+import { removeDuplicate, flatMapBibleObjectTree } from './utils';
 import { Button } from '@material-ui/core';
 
 export const App = () => {
@@ -49,6 +49,16 @@ export const App = () => {
 
   const handleCloseCrossReferenceDialog = () => {
     setIsDialogOpen(false);
+  };
+
+  const handleReferrerVerseClick = (e, verseAddress) => {
+    handleOpenPopupMenu(e);
+    setReferrerVerseAddress(verseAddress);
+    setReferredVerseAddress(verseAddress);
+  };
+
+  const handleReferredVerseChange = verseAddress => {
+    setReferredVerseAddress(verseAddress);
   };
 
   const handleCrossReference = topic => {
@@ -113,14 +123,39 @@ export const App = () => {
     setCrossReferencesByVerse(newCrossReferencesByVerse);
   };
 
-  const handleReferrerVerseClick = (e, verseAddress) => {
-    handleOpenPopupMenu(e);
-    setReferrerVerseAddress(verseAddress);
-    setReferredVerseAddress(verseAddress);
-  };
+  const handleDeleteCrossReference = (topic, verseAddress) => {
+    const { book, chapter, verse } = verseAddress;
 
-  const handleReferredVerseChange = verseAddress => {
-    setReferredVerseAddress(verseAddress);
+    //cfByTopic
+    const newCrossReferencesByTopic = { ...crossReferencesByTopic };
+    const topicContent = newCrossReferencesByTopic[topic];
+    const mappedTopicContent = flatMapBibleObjectTree(
+      topicContent,
+      (book, chapter, verse) => ({
+        book,
+        chapter,
+        verse,
+      })
+    );
+
+    if (mappedTopicContent.length === 1) {
+      delete newCrossReferencesByTopic[topic];
+    } else {
+      const verseNumberListByVerse = topicContent[book][chapter];
+      const verseIndex = verseNumberListByVerse.indexOf(verse);
+      verseNumberListByVerse.splice(verseIndex, 1);
+    }
+
+    setCrossReferencesByTopic(newCrossReferencesByTopic);
+
+    //cfByVerse
+    const newCrossReferencesByVerse = { ...crossReferencesByVerse };
+
+    const topicListByVerse = newCrossReferencesByVerse[book][chapter][verse];
+    const topicIndex = topicListByVerse.indexOf(topic);
+    topicListByVerse.splice(topicIndex, 1);
+
+    setCrossReferencesByVerse(newCrossReferencesByVerse);
   };
 
   return (
@@ -141,6 +176,7 @@ export const App = () => {
         referrerVerseAddress={referrerVerseAddress}
         handleCrossReference={handleCrossReference}
         handleReferredVerseChange={handleReferredVerseChange}
+        handleDeleteCrossReference={handleDeleteCrossReference}
         topics={[
           ...((crossReferencesByVerse &&
             crossReferencesByVerse[referrerBook] &&

@@ -32,6 +32,7 @@ const CrossReferenceDialogContent = ({
   referrerVerseAddress,
   handleCrossReference,
   handleReferredVerseChange,
+  handleDeleteCrossReference,
   topics,
   crossReferencesByReferrer,
 }) => {
@@ -65,6 +66,10 @@ const CrossReferenceDialogContent = ({
         {crossReferencesByReferrer.map(crossReferences => {
           const { topic, content } = crossReferences;
 
+          const handleVerseClick = (_e, verseAddress) => {
+            handleDeleteCrossReference(topic, verseAddress);
+          };
+
           return (
             <Grid item key={topic}>
               <Card>
@@ -76,7 +81,7 @@ const CrossReferenceDialogContent = ({
                       book={book}
                       chapter={chapter}
                       verse={verse}
-                      handleVerseClick={() => {}}
+                      handleVerseClick={handleVerseClick}
                     />
                   ))}
                 </CardContent>
