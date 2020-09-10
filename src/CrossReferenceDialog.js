@@ -9,7 +9,9 @@ import {
   Grid,
   CardHeader,
   CardContent,
+  IconButton,
 } from '@material-ui/core';
+import { Close as CloseIcon } from '@material-ui/icons';
 
 import { VerseSelector } from './VerseSelector';
 import { VerseWithHeading } from './Verse';
@@ -70,14 +72,22 @@ const CrossReferenceDialogContent = ({
           const handleVerseClick = (_e, verseAddress) => {
             handleDeleteCrossReference(topic, verseAddress);
           };
-          const handleTopicClick = () => {
+
+          const handleCloseClick = () => {
             handleDeleteTopic(topic);
           };
 
           return (
             <Grid item key={topic}>
               <Card>
-                <CardHeader title={topic} onClick={handleTopicClick} />
+                <CardHeader
+                title={topic}
+                  action={
+                    <IconButton onClick={handleCloseClick}>
+                      <CloseIcon />
+                    </IconButton>
+                  }
+                />
                 <CardContent>
                   {flatMapBibleObjectTree(content, (book, chapter, verse) => (
                     <VerseWithHeading
