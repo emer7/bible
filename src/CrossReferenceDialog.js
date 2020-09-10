@@ -84,31 +84,35 @@ const CrossReferenceDialogContent = ({
           );
         })}
         <Grid item>
-      {isSelectorOpen ? (
-        <>
-          <Select value={topic} onChange={handleTopicChange}>
-            <MenuItem value="New">New</MenuItem>
-            {topics.map(topicOption => (
-              <MenuItem key={topicOption} value={topicOption}>
-                {topicOption}
-              </MenuItem>
-            ))}
-          </Select>
-          <VerseSelector
-            initialBook={book}
-            initialChapter={chapter}
-            initialVerse={verse}
-            handleVerseClick={() => {}}
-            handleVerseAddressChange={handleVerseAddressChange}
-            buttonRender={ConfirmButton(
-              topic === 'New' ? new Date().getTime().toString() : topic,
-              handleCrossReference
-            )}
-          />
-        </>
-      ) : (
-        <Button onClick={handleOpenSelector}>+</Button>
-      )}
+          {isSelectorOpen ? (
+            <Card>
+              <CardContent>
+                <Select value={topic} onChange={handleTopicChange}>
+                  <MenuItem value="New">New</MenuItem>
+                  {topics.map(topicOption => (
+                    <MenuItem key={topicOption} value={topicOption}>
+                      {topicOption}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <VerseSelector
+                  initialBook={book}
+                  initialChapter={chapter}
+                  initialVerse={verse}
+                  handleVerseClick={() => {}}
+                  handleVerseAddressChange={handleVerseAddressChange}
+                  buttonRender={ConfirmButton(
+                    topic === 'New' ? new Date().getTime().toString() : topic,
+                    handleCrossReference
+                  )}
+                />
+              </CardContent>
+            </Card>
+          ) : (
+            <Button variant="text" onClick={handleOpenSelector} fullWidth>
+              Add Reference
+            </Button>
+          )}
         </Grid>
       </Grid>
     </DialogContent>

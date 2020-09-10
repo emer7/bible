@@ -77,9 +77,6 @@ export const VerseSelector = ({
               </MenuItem>
             ))}
         </Select>
-        {RenderedView && (
-          <RenderedView book={book} chapter={chapter} verse={verse} />
-        )}
       </div>
       <div>
         <Verse
@@ -89,6 +86,9 @@ export const VerseSelector = ({
           handleVerseClick={handleVerseClick}
         />
       </div>
+      {RenderedView && (
+        <RenderedView book={book} chapter={chapter} verse={verse} />
+      )}
     </>
   );
 };
