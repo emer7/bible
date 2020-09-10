@@ -16,6 +16,8 @@ export const App = () => {
   const [crossReferencesByVerse, setCrossReferencesByVerse] = React.useState(
     JSON.parse(localStorage.getItem('cfByVerse') || '{}')
   );
+  const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
+  const [referredVerseAddress, setReferredVerseAddress] = React.useState({});
   const [
     crossReferencesHandler,
     setCrossReferencesHandler,
@@ -109,15 +111,23 @@ export const App = () => {
     });
   };
 
-  const handleVerseClick = (e, book, chapter, verse) => {
+  const handleReferrerVerseClick = (e, book, chapter, verse) => {
     handleOpenPopupMenu(e);
+    setReferrerVerseAddress({ book, chapter, verse });
     setCrossReferencesHandler(handleCrossReference(book, chapter, verse));
+  };
+
+  const handleReferredVerseChange = verseAddress => {
+    setReferredVerseAddress(verseAddress);
   };
 
   return (
     <div>
       <Button onClick={handleLocalStorage}>Save</Button>
-      <VerseSelector handleVerseClick={handleVerseClick} />
+      <VerseSelector
+        handleVerseClick={handleReferrerVerseClick}
+        handleVerseAddressChange={() => {}}
+      />
       <Popupmenu
         anchorEl={anchorEl}
         handleClosePopupMenu={handleClosePopupMenu}
@@ -127,6 +137,7 @@ export const App = () => {
         open={isDialogOpen}
         handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
         handleCrossReference={crossReferencesHandler}
+        handleReferredVerseChange={handleReferredVerseChange}
       />
     </div>
   );

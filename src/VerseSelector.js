@@ -9,6 +9,7 @@ import { cannonArr } from './consts';
 
 export const VerseSelector = ({
   handleVerseClick,
+  handleVerseAddressChange,
   buttonRender: RenderedView,
 }) => {
   const [book, setBook] = useState('Genesis');
@@ -19,15 +20,30 @@ export const VerseSelector = ({
     setBook(e.target.value);
     setChapter('1');
     setVerse('1');
+    handleVerseAddressChange({
+      book: e.target.value,
+      chapter: '1',
+      verse: '1',
+    });
   };
 
   const handleChapterChange = e => {
     setChapter(e.target.value);
     setVerse('1');
+    handleVerseAddressChange({
+      book,
+      chapter: e.target.value,
+      verse: '1',
+    });
   };
 
   const handleVerseChange = e => {
     setVerse(e.target.value);
+    handleVerseAddressChange({
+      book,
+      chapter,
+      verse: e.target.value,
+    });
   };
 
   return (

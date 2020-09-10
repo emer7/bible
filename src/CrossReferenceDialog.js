@@ -25,6 +25,7 @@ export const CrossReferenceDialog = ({
   open,
   handleCloseCrossReferenceDialog,
   handleCrossReference,
+  handleReferredVerseChange,
 }) => {
   const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
   const [topic, setTopic] = React.useState('New');
@@ -47,6 +48,7 @@ export const CrossReferenceDialog = ({
             </Select>
             <VerseSelector
               handleVerseClick={() => {}}
+              handleVerseAddressChange={handleReferredVerseChange}
               buttonRender={ConfirmButton(
                 topic === 'New' ? new Date().getTime().toString() : topic,
                 handleCrossReference
