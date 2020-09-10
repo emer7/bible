@@ -33,6 +33,7 @@ const CrossReferenceDialogContent = ({
   handleCrossReference,
   handleReferredVerseChange,
   handleDeleteCrossReference,
+  handleDeleteTopic,
   topics,
   crossReferencesByReferrer,
 }) => {
@@ -69,11 +70,14 @@ const CrossReferenceDialogContent = ({
           const handleVerseClick = (_e, verseAddress) => {
             handleDeleteCrossReference(topic, verseAddress);
           };
+          const handleTopicClick = () => {
+            handleDeleteTopic(topic);
+          };
 
           return (
             <Grid item key={topic}>
               <Card>
-                <CardHeader title={topic} />
+                <CardHeader title={topic} onClick={handleTopicClick} />
                 <CardContent>
                   {flatMapBibleObjectTree(content, (book, chapter, verse) => (
                     <VerseWithHeading

@@ -158,6 +158,36 @@ export const App = () => {
     setCrossReferencesByVerse(newCrossReferencesByVerse);
   };
 
+  const handleDeleteTopic = topic => {
+    //cfByTopic
+    const newCrossReferencesByTopic = { ...crossReferencesByTopic };
+    const topicContent = newCrossReferencesByTopic[topic];
+    delete newCrossReferencesByTopic[topic];
+
+    setCrossReferencesByTopic(newCrossReferencesByTopic);
+
+    //cfByVerse
+    const newCrossReferencesByVerse = { ...crossReferencesByVerse };
+    const mappedTopicContent = flatMapBibleObjectTree(
+      topicContent,
+      (book, chapter, verse) => ({
+        book,
+        chapter,
+        verse,
+      })
+    );
+
+    mappedTopicContent.forEach(verseAddress => {
+      const { book, chapter, verse } = verseAddress;
+
+      const topicListByVerse = newCrossReferencesByVerse[book][chapter][verse];
+      const topicIndex = topicListByVerse.indexOf(topic);
+      topicListByVerse.splice(topicIndex, 1);
+    });
+
+    setCrossReferencesByVerse(newCrossReferencesByVerse);
+  };
+
   return (
     <div>
       <Button onClick={handleLocalStorage}>Save</Button>
@@ -177,6 +207,7 @@ export const App = () => {
         handleCrossReference={handleCrossReference}
         handleReferredVerseChange={handleReferredVerseChange}
         handleDeleteCrossReference={handleDeleteCrossReference}
+        handleDeleteTopic={handleDeleteTopic}
         topics={[
           ...((crossReferencesByVerse &&
             crossReferencesByVerse[referrerBook] &&
