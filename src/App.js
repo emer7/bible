@@ -137,9 +137,10 @@ export const App = () => {
       />
       <CrossReferenceDialog
         open={isDialogOpen}
+        handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
         referrerVerseAddress={referrerVerseAddress}
-        crossReferencesByVerse={crossReferencesByVerse}
-        crossReferencesByTopic={crossReferencesByTopic}
+        handleCrossReference={handleCrossReference}
+        handleReferredVerseChange={handleReferredVerseChange}
         topics={[
           ...((crossReferencesByVerse &&
             crossReferencesByVerse[referrerBook] &&
@@ -165,9 +166,6 @@ export const App = () => {
             ]) ||
           []
         ).map(topic => ({ topic, content: crossReferencesByTopic[topic] }))}
-        handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
-        handleCrossReference={handleCrossReference}
-        handleReferredVerseChange={handleReferredVerseChange}
       />
     </div>
   );

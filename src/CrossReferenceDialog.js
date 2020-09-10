@@ -30,9 +30,9 @@ const ConfirmButton = (topic, handleCrossReference) => ({
 
 const CrossReferenceDialogContent = ({
   referrerVerseAddress,
-  topics,
   handleCrossReference,
   handleReferredVerseChange,
+  topics,
   crossReferencesByReferrer,
 }) => {
   const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
