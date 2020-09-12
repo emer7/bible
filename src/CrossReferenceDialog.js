@@ -106,10 +106,18 @@ const CrossReferenceDialogContent = ({
           const { topic, content } = crossReferences;
 
           const handleVerseClick = (_e, verseAddress) => {
+            if (topic !== NEW_DEFAULT_TOPIC && topic !== NEW_CUSTOM_TOPIC) {
+              setTopic(NEW_DEFAULT_TOPIC);
+              setIsTopicTextFieldOpen(false);
+            }
             handleDeleteCrossReference(topic, verseAddress);
           };
 
           const handleCloseClick = () => {
+            if (topic !== NEW_DEFAULT_TOPIC && topic !== NEW_CUSTOM_TOPIC) {
+              setTopic(NEW_DEFAULT_TOPIC);
+              setIsTopicTextFieldOpen(false);
+            }
             handleDeleteTopic(topic);
           };
 
