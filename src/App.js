@@ -246,22 +246,24 @@ export const App = () => {
         handleDeleteCrossReference={handleDeleteCrossReference}
         handleDeleteTopic={handleDeleteTopic}
         handleRenameTopic={handleRenameTopic}
-        topics={[
-          ...((crossReferencesByVerse &&
+        topicsFromReferrer={
+          (crossReferencesByVerse &&
             crossReferencesByVerse[referrerBook] &&
             crossReferencesByVerse[referrerBook][referrerChapter] &&
             crossReferencesByVerse[referrerBook][referrerChapter][
               referrerVerse
             ]) ||
-            []),
-          ...((crossReferencesByVerse &&
+          []
+        }
+        topicsFromReferred={
+          (crossReferencesByVerse &&
             crossReferencesByVerse[referredBook] &&
             crossReferencesByVerse[referredBook][referredChapter] &&
             crossReferencesByVerse[referredBook][referredChapter][
               referredVerse
             ]) ||
-            []),
-        ].filter(removeDuplicate)}
+          []
+        }
         crossReferencesByReferrer={(
           (crossReferencesByVerse &&
             crossReferencesByVerse[referrerBook] &&

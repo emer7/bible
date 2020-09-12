@@ -18,7 +18,7 @@ import { Close as CloseIcon } from '@material-ui/icons';
 import { VerseSelector } from './VerseSelector';
 import { VerseWithHeading } from './Verse';
 
-import { flatMapBibleObjectTree } from './utils';
+import { flatMapBibleObjectTree, removeDuplicate } from './utils';
 import { NEW_DEFAULT_TOPIC, NEW_CUSTOM_TOPIC } from './consts';
 
 const ConfirmButton = (topic, handleCrossReference) => ({
@@ -40,7 +40,8 @@ const CrossReferenceDialogContent = ({
   handleDeleteCrossReference,
   handleDeleteTopic,
   handleRenameTopic,
-  topics,
+  topicsFromReferrer,
+  topicsFromReferred,
   crossReferencesByReferrer,
 }) => {
   const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
@@ -79,7 +80,14 @@ const CrossReferenceDialogContent = ({
   const handleVerseAddressChange = verseAddress => {
     handleReferredVerseChange(verseAddress);
 
-    if (topic !== NEW_CUSTOM_TOPIC) {
+    console.log(topicsFromReferrer);
+    console.log(topic);
+
+    if (
+      topic !== NEW_DEFAULT_TOPIC &&
+      topic !== NEW_CUSTOM_TOPIC &&
+      !topicsFromReferrer.includes(topic)
+    ) {
       setTopic(NEW_DEFAULT_TOPIC);
       setIsTopicTextFieldOpen(false);
     }
@@ -160,11 +168,13 @@ const CrossReferenceDialogContent = ({
                   </MenuItem>
                   <MenuItem value={NEW_CUSTOM_TOPIC}>Custom topic</MenuItem>
                   <ListSubheader>Available topics</ListSubheader>
-                  {topics.map(topicOption => (
-                    <MenuItem key={topicOption} value={topicOption}>
-                      {topicOption}
-                    </MenuItem>
-                  ))}
+                  {[...topicsFromReferrer, ...topicsFromReferred]
+                    .filter(removeDuplicate)
+                    .map(topicOption => (
+                      <MenuItem key={topicOption} value={topicOption}>
+                        {topicOption}
+                      </MenuItem>
+                    ))}
                 </Select>
                 {isTopicTextFieldOpen && (
                   <TextField
