@@ -78,8 +78,11 @@ const CrossReferenceDialogContent = ({
 
   const handleVerseAddressChange = verseAddress => {
     handleReferredVerseChange(verseAddress);
-    setTopic(NEW_DEFAULT_TOPIC);
-    setIsTopicTextFieldOpen(false);
+
+    if (topic !== NEW_CUSTOM_TOPIC) {
+      setTopic(NEW_DEFAULT_TOPIC);
+      setIsTopicTextFieldOpen(false);
+    }
   };
 
   return (
