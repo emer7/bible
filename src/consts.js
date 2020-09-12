@@ -37,7 +37,7 @@ export const OTArr = [
   'Zephaniah',
   'Haggai',
   'Zechariah',
-  'Malachi'
+  'Malachi',
 ];
 
 export const NTArr = [
@@ -67,7 +67,7 @@ export const NTArr = [
   '2 John',
   '3 John',
   'Jude',
-  'Revelation'
+  'Revelation',
 ];
 
 export const OTDict = {
@@ -109,7 +109,7 @@ export const OTDict = {
   Zephaniah: 36,
   Haggai: 37,
   Zechariah: 38,
-  Malachi: 39
+  Malachi: 39,
 };
 
 export const NTDict = {
@@ -139,8 +139,11 @@ export const NTDict = {
   '2 John': 63,
   '3 John': 64,
   Jude: 65,
-  Revelation: 66
+  Revelation: 66,
 };
 
 export const cannonArr = [...OTArr, ...NTArr];
 export const canonDict = { ...OTDict, ...NTDict };
+
+export const NEW_DEFAULT_TOPIC = 'NEW_DEFAULT_TOPIC';
+export const NEW_CUSTOM_TOPIC = 'NEW_CUSTOM_TOPIC';

@@ -42,7 +42,9 @@ const CrossReferenceDialogContent = ({
   crossReferencesByReferrer,
 }) => {
   const [isSelectorOpen, setIsSelectorOpen] = React.useState(false);
-  const [topic, setTopic] = React.useState('New');
+  const [topic, setTopic] = React.useState(NEW_DEFAULT_TOPIC);
+  const [customTopic, setCustomTopic] = React.useState('');
+  const [isTopicTextFieldOpen, setIsTopicTextFieldOpen] = React.useState(false);
 
   const { book, chapter, verse } = referrerVerseAddress;
 
@@ -55,12 +57,27 @@ const CrossReferenceDialogContent = ({
   };
 
   const handleTopicChange = e => {
-    setTopic(e.target.value);
+    const newTopic = e.target.value;
+
+    setTopic(newTopic);
+    if (newTopic === NEW_CUSTOM_TOPIC) {
+      setIsTopicTextFieldOpen(true);
+      setCustomTopic('');
+    } else {
+      setIsTopicTextFieldOpen(false);
+    }
+  };
+
+  const handleCustomTopicChange = e => {
+    const newCustomTopic = e.target.value;
+
+    setCustomTopic(newCustomTopic);
   };
 
   const handleVerseAddressChange = verseAddress => {
     handleReferredVerseChange(verseAddress);
-    setTopic('New');
+    setTopic(NEW_DEFAULT_TOPIC);
+    setIsTopicTextFieldOpen(false);
   };
 
   return (
@@ -133,13 +150,25 @@ const CrossReferenceDialogContent = ({
               />
               <CardContent>
                 <Select value={topic} onChange={handleTopicChange}>
-                  <MenuItem value="New">New</MenuItem>
+                  <MenuItem value={NEW_DEFAULT_TOPIC}>
+                    Auto-generate topic
+                  </MenuItem>
+                  <MenuItem value={NEW_CUSTOM_TOPIC}>Custom topic</MenuItem>
+                  <ListSubheader>Available topics</ListSubheader>
                   {topics.map(topicOption => (
                     <MenuItem key={topicOption} value={topicOption}>
                       {topicOption}
                     </MenuItem>
                   ))}
                 </Select>
+                {isTopicTextFieldOpen && (
+                  <TextField
+                    placeholder="Type here"
+                    value={customTopic}
+                    onChange={handleCustomTopicChange}
+                  />
+                )}
+
                 <VerseSelector
                   initialBook={book}
                   initialChapter={chapter}
@@ -147,7 +176,13 @@ const CrossReferenceDialogContent = ({
                   handleVerseClick={() => {}}
                   handleVerseAddressChange={handleVerseAddressChange}
                   buttonRender={ConfirmButton(
-                    topic === 'New' ? new Date().getTime().toString() : topic,
+                    topic === NEW_DEFAULT_TOPIC
+                      ? new Date().getTime().toString()
+                      : topic === NEW_CUSTOM_TOPIC
+                      ? !customTopic
+                        ? 'Empty topic ' + new Date().getTime().toString()
+                        : customTopic
+                      : topic,
                     handleCrossReference
                   )}
                 />
