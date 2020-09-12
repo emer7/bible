@@ -240,7 +240,7 @@ export const App = () => {
       <CrossReferenceDialog
         open={isDialogOpen}
         handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
-        referrerVerseAddress={referrerVerseAddress}
+        referredVerseAddress={referredVerseAddress}
         handleCrossReference={handleCrossReference}
         handleReferredVerseChange={handleReferredVerseChange}
         handleDeleteCrossReference={handleDeleteCrossReference}

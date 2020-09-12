@@ -11,6 +11,7 @@ import {
   CardContent,
   IconButton,
   TextField,
+  ListSubheader,
 } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 
@@ -18,6 +19,7 @@ import { VerseSelector } from './VerseSelector';
 import { VerseWithHeading } from './Verse';
 
 import { flatMapBibleObjectTree } from './utils';
+import { NEW_DEFAULT_TOPIC, NEW_CUSTOM_TOPIC } from './consts';
 
 const ConfirmButton = (topic, handleCrossReference) => ({
   book,
@@ -32,7 +34,7 @@ const ConfirmButton = (topic, handleCrossReference) => ({
 };
 
 const CrossReferenceDialogContent = ({
-  referrerVerseAddress,
+  referredVerseAddress,
   handleCrossReference,
   handleReferredVerseChange,
   handleDeleteCrossReference,
@@ -46,7 +48,7 @@ const CrossReferenceDialogContent = ({
   const [customTopic, setCustomTopic] = React.useState('');
   const [isTopicTextFieldOpen, setIsTopicTextFieldOpen] = React.useState(false);
 
-  const { book, chapter, verse } = referrerVerseAddress;
+  const { book, chapter, verse } = referredVerseAddress;
 
   const handleOpenSelector = () => {
     setIsSelectorOpen(true);
