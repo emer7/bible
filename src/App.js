@@ -52,9 +52,11 @@ export const App = () => {
   };
 
   const handleReferrerVerseClick = (e, verseAddress) => {
+    const { book, chapter, verse } = verseAddress;
+
     handleOpenPopupMenu(e);
     setReferrerVerseAddress(verseAddress);
-    setReferredVersesAddress(verseAddress);
+    setReferredVersesAddress({ book, chapter, verses: [verse] });
   };
 
   const handleReferredVersesChange = versesAddress => {
