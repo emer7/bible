@@ -259,27 +259,33 @@ const CrossReferenceDialogContent = ({
                 }
               />
               <CardContent>
-                <Select value={topic} onChange={handleTopicChange}>
-                  <MenuItem value={NEW_DEFAULT_TOPIC}>
-                    Auto-generate topic
-                  </MenuItem>
-                  <MenuItem value={NEW_CUSTOM_TOPIC}>Custom topic</MenuItem>
-                  <ListSubheader>Available topics</ListSubheader>
-                  {[...topicsFromReferrer, ...topicsFromReferred]
-                    .filter(removeDuplicate)
-                    .map(topicOption => (
-                      <MenuItem key={topicOption} value={topicOption}>
-                        {topicOption}
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Select value={topic} onChange={handleTopicChange}>
+                      <MenuItem value={NEW_DEFAULT_TOPIC}>
+                        Auto-generate topic
                       </MenuItem>
-                    ))}
-                </Select>
-                {isTopicTextFieldOpen && (
-                  <TextField
-                    placeholder="Type here"
-                    value={customTopic}
-                    onChange={handleCustomTopicChange}
-                  />
-                )}
+                      <MenuItem value={NEW_CUSTOM_TOPIC}>Custom topic</MenuItem>
+                      <ListSubheader>Available topics</ListSubheader>
+                      {[...topicsFromReferrer, ...topicsFromReferred]
+                        .filter(removeDuplicate)
+                        .map(topicOption => (
+                          <MenuItem key={topicOption} value={topicOption}>
+                            {topicOption}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </Grid>
+                  <Grid item>
+                    {isTopicTextFieldOpen && (
+                      <TextField
+                        placeholder="Type here"
+                        value={customTopic}
+                        onChange={handleCustomTopicChange}
+                      />
+                    )}
+                  </Grid>
+                </Grid>
 
                 <VersesSelector
                   initialBook={book}
