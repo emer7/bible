@@ -41,12 +41,25 @@ export const VersesSelector = ({
   };
 
   const handleVersesChange = e => {
-    setVerses(e.target.value);
-    handleVersesAddressChange({
-      book,
-      chapter,
-      verses: e.target.value,
-    });
+    const selectedVerses = e.target.value;
+
+    if (selectedVerses.includes('0')) {
+      const allVerses = Object.keys(esv[book][chapter]).sort((i, j) => i - j);
+
+      setVerses(allVerses);
+      handleVersesAddressChange({
+        book,
+        chapter,
+        verses: allVerses,
+      });
+    } else {
+      setVerses(e.target.value);
+      handleVersesAddressChange({
+        book,
+        chapter,
+        verses: e.target.value,
+      });
+    }
   };
 
   return (
@@ -74,7 +87,23 @@ export const VersesSelector = ({
             </Select>
           </Grid>
           <Grid item>
-            <Select value={verses} onChange={handleVersesChange} multiple>
+            <Select
+              value={verses}
+              onChange={handleVersesChange}
+              renderValue={value => {
+                console.log(value);
+                return value.length
+                  ? value.length === 1
+                    ? value[0]
+                    : `${value[0]} - ${value[value.length - 1]}`
+                  : 'Select a verse';
+              }}
+              multiple
+              displayEmpty
+            >
+              <MenuItem key="0" value="0">
+                All
+              </MenuItem>
               {Object.keys(esv[book][chapter])
                 .sort((i, j) => i - j)
                 .map(verse => (
@@ -87,14 +116,18 @@ export const VersesSelector = ({
         </Grid>
       </Grid>
       <Grid item>
-        {verses.map(verse => (
-          <Verse
-            book={book}
-            chapter={chapter}
-            verse={verse}
-            handleVerseClick={handleVerseClick}
-          />
-        ))}
+        {verses.length ? (
+          verses.map(verse => (
+            <Verse
+              book={book}
+              chapter={chapter}
+              verse={verse}
+              handleVerseClick={handleVerseClick}
+            />
+          ))
+        ) : (
+          <span>Please select a verse</span>
+        )}
       </Grid>
       <Grid item>
         {RenderedView && (
