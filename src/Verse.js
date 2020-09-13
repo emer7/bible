@@ -13,9 +13,13 @@ export const Verse = ({ book, chapter, verse, handleVerseClick }) => {
   };
 
   return (
-    <SpanWithPointer onClick={handleOnClick}>
-      {verse} {esv[book][chapter][verse]}
-    </SpanWithPointer>
+    <>
+      <sup>{verse}</sup>
+      <SpanWithPointer onClick={handleOnClick}>
+        {esv[book][chapter][verse]}
+        {' ' /*remove, use CSS instead*/}
+      </SpanWithPointer>
+    </>
   );
 };
 
