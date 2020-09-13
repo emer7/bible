@@ -7,45 +7,45 @@ import esv from './ESV.json';
 
 import { cannonArr } from './consts';
 
-export const VerseSelector = ({
+export const VersesSelector = ({
   initialBook,
   initialChapter,
-  initialVerse,
+  initialVerses,
   handleVerseClick,
-  handleVerseAddressChange,
+  handleVersesAddressChange,
   buttonRender: RenderedView,
 }) => {
   const [book, setBook] = useState(initialBook || 'Genesis');
   const [chapter, setChapter] = useState(initialChapter || '1');
-  const [verse, setVerse] = useState(initialVerse || '1');
+  const [verses, setVerses] = useState(initialVerses || '1');
 
   const handleBookChange = e => {
     setBook(e.target.value);
     setChapter('1');
-    setVerse('1');
-    handleVerseAddressChange({
+    setVerses('1');
+    handleVersesAddressChange({
       book: e.target.value,
       chapter: '1',
-      verse: '1',
+      verses: '1',
     });
   };
 
   const handleChapterChange = e => {
     setChapter(e.target.value);
-    setVerse('1');
-    handleVerseAddressChange({
+    setVerses('1');
+    handleVersesAddressChange({
       book,
       chapter: e.target.value,
-      verse: '1',
+      verses: '1',
     });
   };
 
-  const handleVerseChange = e => {
-    setVerse(e.target.value);
-    handleVerseAddressChange({
+  const handleVersesChange = e => {
+    setVerses(e.target.value);
+    handleVersesAddressChange({
       book,
       chapter,
-      verse: e.target.value,
+      verses: e.target.value,
     });
   };
 
@@ -74,7 +74,7 @@ export const VerseSelector = ({
             </Select>
           </Grid>
           <Grid item>
-            <Select value={verse} onChange={handleVerseChange}>
+            <Select value={verses} onChange={handleVersesChange}>
               {Object.keys(esv[book][chapter])
                 .sort((i, j) => i - j)
                 .map(verse => (
@@ -90,13 +90,13 @@ export const VerseSelector = ({
         <Verse
           book={book}
           chapter={chapter}
-          verse={verse}
+          verse={verses} // to be changed soon
           handleVerseClick={handleVerseClick}
         />
       </Grid>
       <Grid item>
         {RenderedView && (
-          <RenderedView book={book} chapter={chapter} verse={verse} />
+          <RenderedView book={book} chapter={chapter} verse={verses} />
         )}
       </Grid>
     </Grid>

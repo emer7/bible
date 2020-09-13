@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { VerseSelector } from './VerseSelector';
+import { VersesSelector } from './VerseSelector';
 import { Popupmenu } from './PopupMenu';
 import { CrossReferenceDialog } from './CrossReferenceDialog';
 
@@ -12,7 +12,7 @@ export const App = () => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
-  const [referredVerseAddress, setReferredVerseAddress] = React.useState({});
+  const [referredVersesAddress, setReferredVersesAddress] = React.useState({});
   const {
     book: referrerBook,
     chapter: referrerChapter,
@@ -21,8 +21,8 @@ export const App = () => {
   const {
     book: referredBook,
     chapter: referredChapter,
-    verse: referredVerse,
-  } = referredVerseAddress;
+    verses: referredVerses,
+  } = referredVersesAddress;
 
   const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
     JSON.parse(localStorage.getItem('cfByTopic') || '{}')
@@ -54,11 +54,11 @@ export const App = () => {
   const handleReferrerVerseClick = (e, verseAddress) => {
     handleOpenPopupMenu(e);
     setReferrerVerseAddress(verseAddress);
-    setReferredVerseAddress(verseAddress);
+    setReferredVersesAddress(verseAddress);
   };
 
-  const handleReferredVerseChange = verseAddress => {
-    setReferredVerseAddress(verseAddress);
+  const handleReferredVersesChange = versesAddress => {
+    setReferredVersesAddress(versesAddress);
   };
 
   const handleCrossReference = topic => {
@@ -84,7 +84,7 @@ export const App = () => {
     newCrossReferencesByTopic[topic][referredBook][referredChapter] = [
       ...(newCrossReferencesByTopic[topic][referredBook][referredChapter] ||
         []),
-      referredVerse,
+      referredVerses,
     ].filter(removeDuplicate);
 
     console.log(newCrossReferencesByTopic);
@@ -112,9 +112,9 @@ export const App = () => {
     newCrossReferencesByVerse[referredBook][referredChapter] = {
       ...(newCrossReferencesByVerse[referredBook][referredChapter] || {}),
     };
-    newCrossReferencesByVerse[referredBook][referredChapter][referredVerse] = [
+    newCrossReferencesByVerse[referredBook][referredChapter][referredVerses] = [
       ...(newCrossReferencesByVerse[referredBook][referredChapter][
-        referredVerse
+        referredVerses
       ] || []),
       topic,
     ].filter(removeDuplicate);
@@ -228,9 +228,9 @@ export const App = () => {
   return (
     <Container>
       <Button onClick={handleLocalStorage}>Save</Button>
-      <VerseSelector
+      <VersesSelector
         handleVerseClick={handleReferrerVerseClick}
-        handleVerseAddressChange={() => {}}
+        handleVersesAddressChange={() => {}}
       />
       <Popupmenu
         anchorEl={anchorEl}
@@ -240,9 +240,9 @@ export const App = () => {
       <CrossReferenceDialog
         open={isDialogOpen}
         handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
-        referredVerseAddress={referredVerseAddress}
+        referredVersesAddress={referredVersesAddress}
         handleCrossReference={handleCrossReference}
-        handleReferredVerseChange={handleReferredVerseChange}
+        handleReferredVersesChange={handleReferredVersesChange}
         handleDeleteCrossReference={handleDeleteCrossReference}
         handleDeleteTopic={handleDeleteTopic}
         handleRenameTopic={handleRenameTopic}
@@ -260,7 +260,7 @@ export const App = () => {
             crossReferencesByVerse[referredBook] &&
             crossReferencesByVerse[referredBook][referredChapter] &&
             crossReferencesByVerse[referredBook][referredChapter][
-              referredVerse
+              referredVerses
             ]) ||
           []
         }

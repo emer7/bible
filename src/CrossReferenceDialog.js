@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 
-import { VerseSelector } from './VerseSelector';
+import { VersesSelector } from './VerseSelector';
 import { VerseWithHeading } from './Verse';
 
 import { flatMapBibleObjectTree, removeDuplicate } from './utils';
@@ -34,9 +34,9 @@ const ConfirmButton = (topic, handleCrossReference) => ({
 };
 
 const CrossReferenceDialogContent = ({
-  referredVerseAddress,
+  referredVersesAddress,
   handleCrossReference,
-  handleReferredVerseChange,
+  handleReferredVersesChange,
   handleDeleteCrossReference,
   handleDeleteTopic,
   handleRenameTopic,
@@ -49,7 +49,7 @@ const CrossReferenceDialogContent = ({
   const [customTopic, setCustomTopic] = React.useState('');
   const [isTopicTextFieldOpen, setIsTopicTextFieldOpen] = React.useState(false);
 
-  const { book, chapter, verse } = referredVerseAddress;
+  const { book, chapter, verses } = referredVersesAddress;
 
   const handleOpenSelector = () => {
     setIsSelectorOpen(true);
@@ -77,8 +77,8 @@ const CrossReferenceDialogContent = ({
     setCustomTopic(newCustomTopic);
   };
 
-  const handleVerseAddressChange = verseAddress => {
-    handleReferredVerseChange(verseAddress);
+  const handleVersesAddressChange = versesAddress => {
+    handleReferredVersesChange(versesAddress);
 
     console.log(topicsFromReferrer);
     console.log(topic);
@@ -162,7 +162,7 @@ const CrossReferenceDialogContent = ({
             <Card>
               <CardHeader
                 title="New Reference"
-                subheader="Select topic and verse"
+                subheader="Select topic and verses"
                 action={
                   <IconButton onClick={handleCloseSelector}>
                     <CloseIcon />
@@ -192,12 +192,12 @@ const CrossReferenceDialogContent = ({
                   />
                 )}
 
-                <VerseSelector
+                <VersesSelector
                   initialBook={book}
                   initialChapter={chapter}
-                  initialVerse={verse}
+                  initialVerses={verses}
                   handleVerseClick={() => {}}
-                  handleVerseAddressChange={handleVerseAddressChange}
+                  handleVersesAddressChange={handleVersesAddressChange}
                   buttonRender={ConfirmButton(
                     topic === NEW_DEFAULT_TOPIC
                       ? new Date().getTime().toString()
