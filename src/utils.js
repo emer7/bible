@@ -18,8 +18,14 @@ export const flatMapBibleObjectTree = (tree, func) =>
               ...acc2,
               ...chapterTree
                 .sort((i, j) => i - j)
-                .map(verse => func(book, chapter, verse)),
+                .map(verse => func({ book, chapter, verse })),
             ];
           }, []),
       ];
     }, []);
+
+export const mapToVerseAddress = ({ book, chapter, verse }) => ({
+  book,
+  chapter,
+  verse,
+});

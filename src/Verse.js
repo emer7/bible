@@ -23,9 +23,30 @@ export const VerseWithHeading = ({ book, chapter, verse, ...props }) => {
   return (
     <div>
       <div>
-        {book} {chapter}:{verse}
+        <b>
+          {book} {chapter}:{verse}
+        </b>
       </div>
       <Verse book={book} chapter={chapter} verse={verse} {...props} />
     </div>
+  );
+};
+
+export const VerseWithRangedHeading = ({
+  book,
+  chapter,
+  startVerse,
+  endVerse,
+  ...props
+}) => {
+  return (
+    <>
+      <div>
+        <b>
+          {book} {chapter}:{startVerse} - {endVerse}
+        </b>
+      </div>
+      <Verse book={book} chapter={chapter} verse={startVerse} {...props} />
+    </>
   );
 };

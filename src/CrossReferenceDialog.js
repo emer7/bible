@@ -16,9 +16,13 @@ import {
 import { Close as CloseIcon } from '@material-ui/icons';
 
 import { VersesSelector } from './VerseSelector';
-import { VerseWithHeading } from './Verse';
+import { Verse, VerseWithHeading, VerseWithRangedHeading } from './Verse';
 
-import { flatMapBibleObjectTree, removeDuplicate } from './utils';
+import {
+  flatMapBibleObjectTree,
+  removeDuplicate,
+  mapToVerseAddress,
+} from './utils';
 import { NEW_DEFAULT_TOPIC, NEW_CUSTOM_TOPIC } from './consts';
 
 const ConfirmButton = (topic, handleCrossReference) => ({
@@ -140,15 +144,103 @@ const CrossReferenceDialogContent = ({
                   }
                 />
                 <CardContent>
-                  {flatMapBibleObjectTree(content, (book, chapter, verse) => (
-                    <VerseWithHeading
-                      key={`${book}${chapter}${verse}`}
-                      book={book}
-                      chapter={chapter}
-                      verse={verse}
-                      handleVerseClick={handleVerseClick}
-                    />
-                  ))}
+                  {
+                    flatMapBibleObjectTree(content, mapToVerseAddress).reduce(
+                      (
+                        acc,
+                        { book, chapter, verse },
+                        index,
+                        verseAddresses
+                      ) => {
+                        if (index > 0) {
+                          const previousIndex = index - 1;
+                          const {
+                            book: previousBook,
+                            chapter: previousChapter,
+                            verse: previousVerse,
+                          } = verseAddresses[previousIndex];
+
+                          if (
+                            book === previousBook &&
+                            chapter === previousChapter &&
+                            parseInt(verse) === parseInt(previousVerse) + 1
+                          ) {
+                            const {
+                              startVerseIndex,
+                              startVerse,
+                              componentArray,
+                            } = acc;
+
+                            const newComponentArray = [
+                              ...componentArray.slice(0, startVerseIndex),
+                              <VerseWithRangedHeading
+                                key={`${book}${chapter}${verse}`}
+                                book={book}
+                                chapter={chapter}
+                                startVerse={startVerse}
+                                endVerse={verse}
+                                handleVerseClick={handleVerseClick}
+                              />,
+                              ...componentArray.slice(
+                                startVerseIndex + 1,
+                                index
+                              ),
+                              <Verse
+                                key={`${book}${chapter}${verse}`}
+                                book={book}
+                                chapter={chapter}
+                                verse={verse}
+                                handleVerseClick={handleVerseClick}
+                              />,
+                            ];
+
+                            return {
+                              startVerseIndex,
+                              startVerse,
+                              componentArray: newComponentArray,
+                            };
+                          } else {
+                            const { componentArray } = acc;
+
+                            const newComponentArray = [
+                              ...componentArray,
+                              <VerseWithHeading
+                                key={`${book}${chapter}${verse}`}
+                                book={book}
+                                chapter={chapter}
+                                verse={verse}
+                                handleVerseClick={handleVerseClick}
+                              />,
+                            ];
+                            return {
+                              startVerseIndex: index,
+                              startVerse: verse,
+                              componentArray: newComponentArray,
+                            };
+                          }
+                        } else {
+                          const { componentArray } = acc;
+
+                          const newComponentArray = [
+                            ...componentArray,
+                            <VerseWithHeading
+                              key={`${book}${chapter}${verse}`}
+                              book={book}
+                              chapter={chapter}
+                              verse={verse}
+                              handleVerseClick={handleVerseClick}
+                            />,
+                          ];
+                          return {
+                            startVerseIndex: index,
+                            startVerse: verse,
+                            componentArray: newComponentArray,
+                          };
+                        }
+                      },
+                      { startVerseIndex: 0, startVerse: 0, componentArray: [] }
+                    ).componentArray
+                  }
                 </CardContent>
               </Card>
             </Grid>

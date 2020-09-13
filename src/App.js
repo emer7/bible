@@ -139,7 +139,7 @@ export const App = () => {
     const topicContent = newCrossReferencesByTopic[topic];
     const mappedTopicContent = flatMapBibleObjectTree(
       topicContent,
-      (book, chapter, verse) => ({
+      ({book, chapter, verse}) => ({
         book,
         chapter,
         verse,
@@ -178,7 +178,7 @@ export const App = () => {
     const newCrossReferencesByVerse = { ...crossReferencesByVerse };
     const mappedTopicContent = flatMapBibleObjectTree(
       topicContent,
-      (book, chapter, verse) => ({
+      ({book, chapter, verse}) => ({
         book,
         chapter,
         verse,
@@ -213,7 +213,7 @@ export const App = () => {
       const newCrossReferencesByVerse = { ...crossReferencesByVerse };
       const mappedTopicContent = flatMapBibleObjectTree(
         topicContent,
-        (book, chapter, verse) => ({
+        ({book, chapter, verse}) => ({
           book,
           chapter,
           verse,
