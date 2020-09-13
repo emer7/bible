@@ -24,7 +24,7 @@ import { NEW_DEFAULT_TOPIC, NEW_CUSTOM_TOPIC } from './consts';
 const ConfirmButton = (topic, handleCrossReference) => ({
   book,
   chapter,
-  verse,
+  verses,
 }) => {
   const handleOnClick = () => {
     handleCrossReference(topic);
@@ -79,9 +79,6 @@ const CrossReferenceDialogContent = ({
 
   const handleVersesAddressChange = versesAddress => {
     handleReferredVersesChange(versesAddress);
-
-    console.log(topicsFromReferrer);
-    console.log(topic);
 
     if (
       topic !== NEW_DEFAULT_TOPIC &&

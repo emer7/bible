@@ -17,26 +17,26 @@ export const VersesSelector = ({
 }) => {
   const [book, setBook] = useState(initialBook || 'Genesis');
   const [chapter, setChapter] = useState(initialChapter || '1');
-  const [verses, setVerses] = useState(initialVerses || '1');
+  const [verses, setVerses] = useState(initialVerses || ['1']);
 
   const handleBookChange = e => {
     setBook(e.target.value);
     setChapter('1');
-    setVerses('1');
+    setVerses(['1']);
     handleVersesAddressChange({
       book: e.target.value,
       chapter: '1',
-      verses: '1',
+      verses: ['1'],
     });
   };
 
   const handleChapterChange = e => {
     setChapter(e.target.value);
-    setVerses('1');
+    setVerses(['1']);
     handleVersesAddressChange({
       book,
       chapter: e.target.value,
-      verses: '1',
+      verses: ['1'],
     });
   };
 
@@ -74,7 +74,7 @@ export const VersesSelector = ({
             </Select>
           </Grid>
           <Grid item>
-            <Select value={verses} onChange={handleVersesChange}>
+            <Select value={verses} onChange={handleVersesChange} multiple>
               {Object.keys(esv[book][chapter])
                 .sort((i, j) => i - j)
                 .map(verse => (
@@ -87,16 +87,18 @@ export const VersesSelector = ({
         </Grid>
       </Grid>
       <Grid item>
-        <Verse
-          book={book}
-          chapter={chapter}
-          verse={verses} // to be changed soon
-          handleVerseClick={handleVerseClick}
-        />
+        {verses.map(verse => (
+          <Verse
+            book={book}
+            chapter={chapter}
+            verse={verse}
+            handleVerseClick={handleVerseClick}
+          />
+        ))}
       </Grid>
       <Grid item>
         {RenderedView && (
-          <RenderedView book={book} chapter={chapter} verse={verses} />
+          <RenderedView book={book} chapter={chapter} verses={verses} />
         )}
       </Grid>
     </Grid>

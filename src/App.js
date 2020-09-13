@@ -81,10 +81,11 @@ export const App = () => {
     newCrossReferencesByTopic[topic][referredBook] = {
       ...(newCrossReferencesByTopic[topic][referredBook] || {}),
     };
+
     newCrossReferencesByTopic[topic][referredBook][referredChapter] = [
       ...(newCrossReferencesByTopic[topic][referredBook][referredChapter] ||
         []),
-      referredVerses,
+      ...referredVerses,
     ].filter(removeDuplicate);
 
     console.log(newCrossReferencesByTopic);
@@ -112,12 +113,17 @@ export const App = () => {
     newCrossReferencesByVerse[referredBook][referredChapter] = {
       ...(newCrossReferencesByVerse[referredBook][referredChapter] || {}),
     };
-    newCrossReferencesByVerse[referredBook][referredChapter][referredVerses] = [
-      ...(newCrossReferencesByVerse[referredBook][referredChapter][
-        referredVerses
-      ] || []),
-      topic,
-    ].filter(removeDuplicate);
+
+    referredVerses.forEach(referredVerse => {
+      newCrossReferencesByVerse[referredBook][referredChapter][
+        referredVerse
+      ] = [
+        ...(newCrossReferencesByVerse[referredBook][referredChapter][
+          referredVerse
+        ] || []),
+        topic,
+      ].filter(removeDuplicate);
+    });
 
     console.log(newCrossReferencesByVerse);
     setCrossReferencesByVerse(newCrossReferencesByVerse);
@@ -255,15 +261,20 @@ export const App = () => {
             ]) ||
           []
         }
-        topicsFromReferred={
-          (crossReferencesByVerse &&
-            crossReferencesByVerse[referredBook] &&
-            crossReferencesByVerse[referredBook][referredChapter] &&
-            crossReferencesByVerse[referredBook][referredChapter][
-              referredVerses
-            ]) ||
+        topicsFromReferred={(referredVerses || []).reduce(
+          (acc, referredVerse) => [
+            ...acc,
+            ...((crossReferencesByVerse &&
+              crossReferencesByVerse[referredBook] &&
+              crossReferencesByVerse[referredBook][referredChapter] &&
+              crossReferencesByVerse[referredBook][referredChapter][
+                referredVerse
+              ]) ||
+              []),
+          ],
+
           []
-        }
+        )}
         crossReferencesByReferrer={(
           (crossReferencesByVerse &&
             crossReferencesByVerse[referrerBook] &&
