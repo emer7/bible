@@ -143,7 +143,7 @@ export const NTDict = {
 };
 
 export const cannonArr = [...OTArr, ...NTArr];
-export const canonDict = { ...OTDict, ...NTDict };
+export const cannonDict = { ...OTDict, ...NTDict };
 
 export const NEW_DEFAULT_TOPIC = 'NEW_DEFAULT_TOPIC';
 export const NEW_CUSTOM_TOPIC = 'NEW_CUSTOM_TOPIC';
