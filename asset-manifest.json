@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/bible/static/js/main.22c5388d.chunk.js",
-    "main.js.map": "/bible/static/js/main.22c5388d.chunk.js.map",
+    "main.js": "/bible/static/js/main.86644fa2.chunk.js",
+    "main.js.map": "/bible/static/js/main.86644fa2.chunk.js.map",
     "runtime-main.js": "/bible/static/js/runtime-main.247fcd78.js",
     "runtime-main.js.map": "/bible/static/js/runtime-main.247fcd78.js.map",
-    "static/js/2.d7e431eb.chunk.js": "/bible/static/js/2.d7e431eb.chunk.js",
-    "static/js/2.d7e431eb.chunk.js.map": "/bible/static/js/2.d7e431eb.chunk.js.map",
+    "static/js/2.88772427.chunk.js": "/bible/static/js/2.88772427.chunk.js",
+    "static/js/2.88772427.chunk.js.map": "/bible/static/js/2.88772427.chunk.js.map",
     "index.html": "/bible/index.html",
-    "precache-manifest.5b390645f404be44c1c4e84fd2df76f2.js": "/bible/precache-manifest.5b390645f404be44c1c4e84fd2df76f2.js",
+    "precache-manifest.1233a1aff20c1a12d3c12606a4ee220b.js": "/bible/precache-manifest.1233a1aff20c1a12d3c12606a4ee220b.js",
     "service-worker.js": "/bible/service-worker.js",
-    "static/js/2.d7e431eb.chunk.js.LICENSE.txt": "/bible/static/js/2.d7e431eb.chunk.js.LICENSE.txt"
+    "static/js/2.88772427.chunk.js.LICENSE.txt": "/bible/static/js/2.88772427.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.247fcd78.js",
-    "static/js/2.d7e431eb.chunk.js",
-    "static/js/main.22c5388d.chunk.js"
+    "static/js/2.88772427.chunk.js",
+    "static/js/main.86644fa2.chunk.js"
   ]
 }
