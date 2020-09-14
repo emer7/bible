@@ -259,51 +259,58 @@ const CrossReferenceDialogContent = ({
                 }
               />
               <CardContent>
-                <Grid container spacing={1}>
+                <Grid container direction="column" spacing={2}>
                   <Grid item>
-                    <Select value={topic} onChange={handleTopicChange}>
-                      <MenuItem value={NEW_DEFAULT_TOPIC}>
-                        Auto-generate topic
-                      </MenuItem>
-                      <MenuItem value={NEW_CUSTOM_TOPIC}>Custom topic</MenuItem>
-                      <ListSubheader>Available topics</ListSubheader>
-                      {[...topicsFromReferrer, ...topicsFromReferred]
-                        .filter(removeDuplicate)
-                        .map(topicOption => (
-                          <MenuItem key={topicOption} value={topicOption}>
-                            {topicOption}
+                    <Grid container spacing={1}>
+                      <Grid item>
+                        <Select value={topic} onChange={handleTopicChange}>
+                          <MenuItem value={NEW_DEFAULT_TOPIC}>
+                            Auto-generate topic
                           </MenuItem>
-                        ))}
-                    </Select>
+                          <MenuItem value={NEW_CUSTOM_TOPIC}>
+                            Custom topic
+                          </MenuItem>
+                          <ListSubheader>Available topics</ListSubheader>
+                          {[...topicsFromReferrer, ...topicsFromReferred]
+                            .filter(removeDuplicate)
+                            .map(topicOption => (
+                              <MenuItem key={topicOption} value={topicOption}>
+                                {topicOption}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </Grid>
+                      <Grid item>
+                        {isTopicTextFieldOpen && (
+                          <TextField
+                            placeholder="Type here"
+                            value={customTopic}
+                            onChange={handleCustomTopicChange}
+                          />
+                        )}
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <Grid item>
-                    {isTopicTextFieldOpen && (
-                      <TextField
-                        placeholder="Type here"
-                        value={customTopic}
-                        onChange={handleCustomTopicChange}
-                      />
-                    )}
+                    <VersesSelector
+                      initialBook={book}
+                      initialChapter={chapter}
+                      initialVerses={verses}
+                      handleVerseClick={() => {}}
+                      handleVersesAddressChange={handleVersesAddressChange}
+                      buttonRender={ConfirmButton(
+                        topic === NEW_DEFAULT_TOPIC
+                          ? new Date().getTime().toString()
+                          : topic === NEW_CUSTOM_TOPIC
+                          ? !customTopic
+                            ? 'Empty topic ' + new Date().getTime().toString()
+                            : customTopic
+                          : topic,
+                        handleCrossReference
+                      )}
+                    />
                   </Grid>
                 </Grid>
-
-                <VersesSelector
-                  initialBook={book}
-                  initialChapter={chapter}
-                  initialVerses={verses}
-                  handleVerseClick={() => {}}
-                  handleVersesAddressChange={handleVersesAddressChange}
-                  buttonRender={ConfirmButton(
-                    topic === NEW_DEFAULT_TOPIC
-                      ? new Date().getTime().toString()
-                      : topic === NEW_CUSTOM_TOPIC
-                      ? !customTopic
-                        ? 'Empty topic ' + new Date().getTime().toString()
-                        : customTopic
-                      : topic,
-                    handleCrossReference
-                  )}
-                />
               </CardContent>
             </Card>
           ) : (
