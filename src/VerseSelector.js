@@ -90,12 +90,35 @@ export const VersesSelector = ({
             <Select
               value={verses}
               onChange={handleVersesChange}
-              renderValue={value => {
-                return value.length
-                  ? value.length === 1
-                    ? value[0]
-                    : `${value[0]} - ${value[value.length - 1]}`
-                  : 'Select a verse';
+              renderValue={values => {
+                if (!values.length) {
+                  return 'Select a verse';
+                } else if (values.length === 1) {
+                  return values[0];
+                } else {
+                  return values
+                    .sort((i, j) => i - j)
+                    .reduce((acc, value) => {
+                      if (
+                        !acc.length ||
+                        parseInt(value) !== parseInt(acc[acc.length - 1][1]) + 1
+                      ) {
+                        return [...acc, [value, value]];
+                      } else {
+                        return [
+                          ...acc.slice(0, -1),
+                          [acc[acc.length - 1][0], value],
+                        ];
+                      }
+                    }, [])
+                    .map(arrayedVerse =>
+                      (arrayedVerse[0] === arrayedVerse[1]
+                        ? arrayedVerse.slice(1)
+                        : arrayedVerse
+                      ).join(' - ')
+                    )
+                    .join('; ');
+                }
               }}
               multiple
               displayEmpty
