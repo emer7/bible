@@ -159,7 +159,6 @@ const CrossReferenceDialogContent = ({
                             chapter: previousChapter,
                             verse: previousVerse,
                           } = verseAddresses[previousIndex];
-
                           if (
                             book === previousBook &&
                             chapter === previousChapter &&
@@ -170,7 +169,6 @@ const CrossReferenceDialogContent = ({
                               startVerse,
                               componentArray,
                             } = acc;
-
                             const newComponentArray = [
                               ...componentArray.slice(0, startVerseIndex),
                               <VerseWithRangedHeading
@@ -199,44 +197,26 @@ const CrossReferenceDialogContent = ({
                               startVerse,
                               componentArray: newComponentArray,
                             };
-                          } else {
-                            const { componentArray } = acc;
-
-                            const newComponentArray = [
-                              ...componentArray,
-                              <VerseWithHeading
-                                key={`${book}${chapter}${verse}`}
-                                book={book}
-                                chapter={chapter}
-                                verse={verse}
-                                handleVerseClick={handleVerseClick}
-                              />,
-                            ];
-                            return {
-                              startVerseIndex: index,
-                              startVerse: verse,
-                              componentArray: newComponentArray,
-                            };
                           }
-                        } else {
-                          const { componentArray } = acc;
-
-                          const newComponentArray = [
-                            ...componentArray,
-                            <VerseWithHeading
-                              key={`${book}${chapter}${verse}`}
-                              book={book}
-                              chapter={chapter}
-                              verse={verse}
-                              handleVerseClick={handleVerseClick}
-                            />,
-                          ];
-                          return {
-                            startVerseIndex: index,
-                            startVerse: verse,
-                            componentArray: newComponentArray,
-                          };
                         }
+
+                        const { componentArray } = acc;
+                        const newComponentArray = [
+                          ...componentArray,
+                          <VerseWithHeading
+                            key={`${book}${chapter}${verse}`}
+                            book={book}
+                            chapter={chapter}
+                            verse={verse}
+                            handleVerseClick={handleVerseClick}
+                          />,
+                        ];
+
+                        return {
+                          startVerseIndex: index,
+                          startVerse: verse,
+                          componentArray: newComponentArray,
+                        };
                       },
                       { startVerseIndex: 0, startVerse: 0, componentArray: [] }
                     ).componentArray
