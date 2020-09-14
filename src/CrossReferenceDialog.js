@@ -172,7 +172,7 @@ const CrossReferenceDialogContent = ({
                             const newComponentArray = [
                               ...componentArray.slice(0, startVerseIndex),
                               <VerseWithRangedHeading
-                                key={`${book}${chapter}${verse}`}
+                                key={`${book}${chapter}:${startVerse}`}
                                 book={book}
                                 chapter={chapter}
                                 startVerse={startVerse}
@@ -184,7 +184,7 @@ const CrossReferenceDialogContent = ({
                                 index
                               ),
                               <Verse
-                                key={`${book}${chapter}${verse}`}
+                                key={`${book}${chapter}:${verse}`}
                                 book={book}
                                 chapter={chapter}
                                 verse={verse}
@@ -204,7 +204,7 @@ const CrossReferenceDialogContent = ({
                         const newComponentArray = [
                           ...componentArray,
                           <VerseWithHeading
-                            key={`${book}${chapter}${verse}`}
+                            key={`${book}${chapter}:${verse}`}
                             book={book}
                             chapter={chapter}
                             verse={verse}

@@ -141,7 +141,7 @@ export const VersesSelector = ({
         {verses.length ? (
           verses.map(verse => (
             <Verse
-              key={`${book}${chapter}${verse}`}
+              key={`${book}${chapter}:${verse}`}
               book={book}
               chapter={chapter}
               verse={verse}
