@@ -90,7 +90,6 @@ export const App = () => {
       ...referredVerses,
     ].filter(removeDuplicate);
 
-    console.log(newCrossReferencesByTopic);
     setCrossReferencesByTopic(newCrossReferencesByTopic);
 
     //cfByVerse
@@ -127,7 +126,6 @@ export const App = () => {
       ].filter(removeDuplicate);
     });
 
-    console.log(newCrossReferencesByVerse);
     setCrossReferencesByVerse(newCrossReferencesByVerse);
   };
 

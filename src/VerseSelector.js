@@ -91,7 +91,6 @@ export const VersesSelector = ({
               value={verses}
               onChange={handleVersesChange}
               renderValue={value => {
-                console.log(value);
                 return value.length
                   ? value.length === 1
                     ? value[0]
