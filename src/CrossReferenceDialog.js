@@ -95,221 +95,217 @@ const CrossReferenceDialogContent = ({
   };
 
   return (
-    <DialogContent>
-      <Grid
-        container
-        direction="column"
-        justify="flex-start"
-        alignItems="stretch"
-        spacing={2}
-      >
-        {crossReferencesByReferrer.map(crossReferences => {
-          const { topic, content } = crossReferences;
+    <Grid
+      container
+      direction="column"
+      justify="flex-start"
+      alignItems="stretch"
+      spacing={2}
+    >
+      {crossReferencesByReferrer.map(crossReferences => {
+        const { topic, content } = crossReferences;
 
-          const handleVerseClick = (_e, verseAddress) => {
-            if (topic !== NEW_DEFAULT_TOPIC && topic !== NEW_CUSTOM_TOPIC) {
-              setTopic(NEW_DEFAULT_TOPIC);
-              setIsTopicTextFieldOpen(false);
-            }
-            handleDeleteCrossReference(topic, verseAddress);
-          };
+        const handleVerseClick = (_e, verseAddress) => {
+          if (topic !== NEW_DEFAULT_TOPIC && topic !== NEW_CUSTOM_TOPIC) {
+            setTopic(NEW_DEFAULT_TOPIC);
+            setIsTopicTextFieldOpen(false);
+          }
+          handleDeleteCrossReference(topic, verseAddress);
+        };
 
-          const handleCloseClick = () => {
-            if (topic !== NEW_DEFAULT_TOPIC && topic !== NEW_CUSTOM_TOPIC) {
-              setTopic(NEW_DEFAULT_TOPIC);
-              setIsTopicTextFieldOpen(false);
-            }
-            handleDeleteTopic(topic);
-          };
+        const handleCloseClick = () => {
+          if (topic !== NEW_DEFAULT_TOPIC && topic !== NEW_CUSTOM_TOPIC) {
+            setTopic(NEW_DEFAULT_TOPIC);
+            setIsTopicTextFieldOpen(false);
+          }
+          handleDeleteTopic(topic);
+        };
 
-          return (
-            <Grid item key={topic}>
-              <Card>
-                <CardHeader
-                  title={
-                    <TextField
-                      defaultValue={topic}
-                      onKeyPress={e => {
-                        if (e.key === 'Enter') {
-                          handleRenameTopic(topic, e.target.value);
-                        }
-                      }}
-                    />
-                  }
-                  subheader="Press Enter to rename"
-                  action={
-                    <IconButton onClick={handleCloseClick}>
-                      <CloseIcon />
-                    </IconButton>
-                  }
-                />
-                <CardContent>
-                  {
-                    flatMapBibleObjectTree(content, mapToVerseAddress).reduce(
-                      (
-                        acc,
-                        { book, chapter, verse },
-                        index,
-                        verseAddresses
-                      ) => {
-                        if (index > 0) {
-                          const previousIndex = index - 1;
-                          const {
-                            book: previousBook,
-                            chapter: previousChapter,
-                            verse: previousVerse,
-                          } = verseAddresses[previousIndex];
-                          if (
-                            book === previousBook &&
-                            chapter === previousChapter &&
-                            parseInt(verse) === parseInt(previousVerse) + 1
-                          ) {
-                            const {
-                              startVerseIndex,
-                              startVerse,
-                              componentArray,
-                            } = acc;
-                            const newComponentArray = [
-                              ...componentArray.slice(0, startVerseIndex),
-                              <VerseWithRangedHeading
-                                key={`${book}${chapter}:${startVerse}`}
-                                book={book}
-                                chapter={chapter}
-                                startVerse={startVerse}
-                                endVerse={verse}
-                                handleVerseClick={handleVerseClick}
-                              />,
-                              ...componentArray.slice(
-                                startVerseIndex + 1,
-                                index
-                              ),
-                              <Verse
-                                key={`${book}${chapter}:${verse}`}
-                                book={book}
-                                chapter={chapter}
-                                verse={verse}
-                                handleVerseClick={handleVerseClick}
-                              />,
-                            ];
-
-                            return {
-                              startVerseIndex,
-                              startVerse,
-                              componentArray: newComponentArray,
-                            };
-                          }
-                        }
-
-                        const { componentArray } = acc;
-                        const newComponentArray = [
-                          ...componentArray,
-                          <VerseWithHeading
-                            key={`${book}${chapter}:${verse}`}
-                            book={book}
-                            chapter={chapter}
-                            verse={verse}
-                            handleVerseClick={handleVerseClick}
-                          />,
-                        ];
-
-                        return {
-                          startVerseIndex: index,
-                          startVerse: verse,
-                          componentArray: newComponentArray,
-                        };
-                      },
-                      { startVerseIndex: 0, startVerse: 0, componentArray: [] }
-                    ).componentArray
-                  }
-                </CardContent>
-              </Card>
-            </Grid>
-          );
-        })}
-        <Grid item>
-          {isSelectorOpen ? (
+        return (
+          <Grid item key={topic}>
             <Card>
               <CardHeader
-                title="New Reference"
-                subheader="Select topic and verses"
+                title={
+                  <TextField
+                    defaultValue={topic}
+                    onKeyPress={e => {
+                      if (e.key === 'Enter') {
+                        handleRenameTopic(topic, e.target.value);
+                      }
+                    }}
+                  />
+                }
+                subheader="Press Enter to rename"
                 action={
-                  <IconButton onClick={handleCloseSelector}>
+                  <IconButton onClick={handleCloseClick}>
                     <CloseIcon />
                   </IconButton>
                 }
               />
               <CardContent>
-                <Grid container direction="column" spacing={2}>
-                  <Grid item>
-                    <Grid container spacing={1}>
-                      <Grid item>
-                        <Select value={topic} onChange={handleTopicChange}>
-                          <MenuItem value={NEW_DEFAULT_TOPIC}>
-                            Auto-generate topic
-                          </MenuItem>
-                          <MenuItem value={NEW_CUSTOM_TOPIC}>
-                            Custom topic
-                          </MenuItem>
-                          <ListSubheader>Available topics</ListSubheader>
-                          {[...topicsFromReferrer, ...topicsFromReferred]
-                            .filter(removeDuplicate)
-                            .map(topicOption => (
-                              <MenuItem key={topicOption} value={topicOption}>
-                                {topicOption}
-                              </MenuItem>
-                            ))}
-                        </Select>
-                      </Grid>
-                      <Grid item>
-                        {isTopicTextFieldOpen && (
-                          <TextField
-                            placeholder="Type here"
-                            value={customTopic}
-                            onChange={handleCustomTopicChange}
-                          />
-                        )}
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <VersesSelector
-                      initialBook={book}
-                      initialChapter={chapter}
-                      initialVerses={verses}
-                      handleVerseClick={() => {}}
-                      handleVersesAddressChange={handleVersesAddressChange}
-                      buttonRender={ConfirmButton(
-                        topic === NEW_DEFAULT_TOPIC
-                          ? new Date().getTime().toString()
-                          : topic === NEW_CUSTOM_TOPIC
-                          ? !customTopic
-                            ? 'Empty topic ' + new Date().getTime().toString()
-                            : customTopic
-                          : topic,
-                        handleCrossReference
-                      )}
-                    />
-                  </Grid>
-                </Grid>
+                {
+                  flatMapBibleObjectTree(content, mapToVerseAddress).reduce(
+                    (acc, { book, chapter, verse }, index, verseAddresses) => {
+                      if (index > 0) {
+                        const previousIndex = index - 1;
+                        const {
+                          book: previousBook,
+                          chapter: previousChapter,
+                          verse: previousVerse,
+                        } = verseAddresses[previousIndex];
+                        if (
+                          book === previousBook &&
+                          chapter === previousChapter &&
+                          parseInt(verse) === parseInt(previousVerse) + 1
+                        ) {
+                          const {
+                            startVerseIndex,
+                            startVerse,
+                            componentArray,
+                          } = acc;
+                          const newComponentArray = [
+                            ...componentArray.slice(0, startVerseIndex),
+                            <VerseWithRangedHeading
+                              key={`${book}${chapter}:${startVerse}`}
+                              book={book}
+                              chapter={chapter}
+                              startVerse={startVerse}
+                              endVerse={verse}
+                              handleVerseClick={handleVerseClick}
+                            />,
+                            ...componentArray.slice(startVerseIndex + 1, index),
+                            <Verse
+                              key={`${book}${chapter}:${verse}`}
+                              book={book}
+                              chapter={chapter}
+                              verse={verse}
+                              handleVerseClick={handleVerseClick}
+                            />,
+                          ];
+
+                          return {
+                            startVerseIndex,
+                            startVerse,
+                            componentArray: newComponentArray,
+                          };
+                        }
+                      }
+
+                      const { componentArray } = acc;
+                      const newComponentArray = [
+                        ...componentArray,
+                        <VerseWithHeading
+                          key={`${book}${chapter}:${verse}`}
+                          book={book}
+                          chapter={chapter}
+                          verse={verse}
+                          handleVerseClick={handleVerseClick}
+                        />,
+                      ];
+
+                      return {
+                        startVerseIndex: index,
+                        startVerse: verse,
+                        componentArray: newComponentArray,
+                      };
+                    },
+                    { startVerseIndex: 0, startVerse: 0, componentArray: [] }
+                  ).componentArray
+                }
               </CardContent>
             </Card>
-          ) : (
-            <Button variant="text" onClick={handleOpenSelector} fullWidth>
-              Add Reference
-            </Button>
-          )}
-        </Grid>
+          </Grid>
+        );
+      })}
+      <Grid item>
+        {isSelectorOpen ? (
+          <Card>
+            <CardHeader
+              title="New Reference"
+              subheader="Select topic and verses"
+              action={
+                <IconButton onClick={handleCloseSelector}>
+                  <CloseIcon />
+                </IconButton>
+              }
+            />
+            <CardContent>
+              <Grid container direction="column" spacing={2}>
+                <Grid item>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <Select value={topic} onChange={handleTopicChange}>
+                        <MenuItem value={NEW_DEFAULT_TOPIC}>
+                          Auto-generate topic
+                        </MenuItem>
+                        <MenuItem value={NEW_CUSTOM_TOPIC}>
+                          Custom topic
+                        </MenuItem>
+                        <ListSubheader>Available topics</ListSubheader>
+                        {[...topicsFromReferrer, ...topicsFromReferred]
+                          .filter(removeDuplicate)
+                          .map(topicOption => (
+                            <MenuItem key={topicOption} value={topicOption}>
+                              {topicOption}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </Grid>
+                    <Grid item>
+                      {isTopicTextFieldOpen && (
+                        <TextField
+                          placeholder="Type here"
+                          value={customTopic}
+                          onChange={handleCustomTopicChange}
+                        />
+                      )}
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <VersesSelector
+                    initialBook={book}
+                    initialChapter={chapter}
+                    initialVerses={verses}
+                    handleVerseClick={() => {}}
+                    handleVersesAddressChange={handleVersesAddressChange}
+                    buttonRender={ConfirmButton(
+                      topic === NEW_DEFAULT_TOPIC
+                        ? new Date().getTime().toString()
+                        : topic === NEW_CUSTOM_TOPIC
+                        ? !customTopic
+                          ? 'Empty topic ' + new Date().getTime().toString()
+                          : customTopic
+                        : topic,
+                      handleCrossReference
+                    )}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        ) : (
+          <Button variant="text" onClick={handleOpenSelector} fullWidth>
+            Add Reference
+          </Button>
+        )}
       </Grid>
-    </DialogContent>
+    </Grid>
   );
 };
 
 export const CrossReferenceDialog = ({
   open,
   handleCloseCrossReferenceDialog,
+  fullScreen,
   ...contentProps
-}) => (
-  <Dialog open={open} onClose={handleCloseCrossReferenceDialog}>
-    <CrossReferenceDialogContent {...contentProps} />
-  </Dialog>
-);
+}) =>
+  fullScreen ? (
+    <Dialog open={open} onClose={handleCloseCrossReferenceDialog}>
+      <DialogContent>
+        <CrossReferenceDialogContent {...contentProps} />
+      </DialogContent>
+    </Dialog>
+  ) : (
+    open && <CrossReferenceDialogContent {...contentProps} />
+  );

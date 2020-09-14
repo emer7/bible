@@ -5,9 +5,13 @@ import { Popupmenu } from './PopupMenu';
 import { CrossReferenceDialog } from './CrossReferenceDialog';
 
 import { removeDuplicate, flatMapBibleObjectTree } from './utils';
-import { Button, Container } from '@material-ui/core';
+import { Button, Container, Grid, useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
 export const App = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
@@ -137,7 +141,7 @@ export const App = () => {
     const topicContent = newCrossReferencesByTopic[topic];
     const mappedTopicContent = flatMapBibleObjectTree(
       topicContent,
-      ({book, chapter, verse}) => ({
+      ({ book, chapter, verse }) => ({
         book,
         chapter,
         verse,
@@ -176,7 +180,7 @@ export const App = () => {
     const newCrossReferencesByVerse = { ...crossReferencesByVerse };
     const mappedTopicContent = flatMapBibleObjectTree(
       topicContent,
-      ({book, chapter, verse}) => ({
+      ({ book, chapter, verse }) => ({
         book,
         chapter,
         verse,
@@ -211,7 +215,7 @@ export const App = () => {
       const newCrossReferencesByVerse = { ...crossReferencesByVerse };
       const mappedTopicContent = flatMapBibleObjectTree(
         topicContent,
-        ({book, chapter, verse}) => ({
+        ({ book, chapter, verse }) => ({
           book,
           chapter,
           verse,
@@ -232,60 +236,81 @@ export const App = () => {
   };
 
   return (
-    <Container>
-      <Button onClick={handleLocalStorage}>Save</Button>
-      <VersesSelector
-        handleVerseClick={handleReferrerVerseClick}
-        handleVersesAddressChange={() => {}}
-      />
+    <>
       <Popupmenu
         anchorEl={anchorEl}
         handleClosePopupMenu={handleClosePopupMenu}
         handleOpenCrossReferenceDialog={handleOpenCrossReferenceDialog}
       />
-      <CrossReferenceDialog
-        open={isDialogOpen}
-        handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
-        referredVersesAddress={referredVersesAddress}
-        handleCrossReference={handleCrossReference}
-        handleReferredVersesChange={handleReferredVersesChange}
-        handleDeleteCrossReference={handleDeleteCrossReference}
-        handleDeleteTopic={handleDeleteTopic}
-        handleRenameTopic={handleRenameTopic}
-        topicsFromReferrer={
-          (crossReferencesByVerse &&
-            crossReferencesByVerse[referrerBook] &&
-            crossReferencesByVerse[referrerBook][referrerChapter] &&
-            crossReferencesByVerse[referrerBook][referrerChapter][
-              referrerVerse
-            ]) ||
-          []
-        }
-        topicsFromReferred={(referredVerses || []).reduce(
-          (acc, referredVerse) => [
-            ...acc,
-            ...((crossReferencesByVerse &&
-              crossReferencesByVerse[referredBook] &&
-              crossReferencesByVerse[referredBook][referredChapter] &&
-              crossReferencesByVerse[referredBook][referredChapter][
-                referredVerse
-              ]) ||
-              []),
-          ],
 
-          []
-        )}
-        crossReferencesByReferrer={(
-          (crossReferencesByVerse &&
-            crossReferencesByVerse[referrerBook] &&
-            crossReferencesByVerse[referrerBook][referrerChapter] &&
-            crossReferencesByVerse[referrerBook][referrerChapter][
-              referrerVerse
-            ]) ||
-          []
-        ).map(topic => ({ topic, content: crossReferencesByTopic[topic] }))}
-      />
-    </Container>
+      <Container>
+        <Grid container>
+          <Grid item sm={6}>
+            <Grid container direction="column">
+              <Grid item>
+                <Button fullWidth onClick={handleLocalStorage}>
+                  Save
+                </Button>
+              </Grid>
+              <Grid item>
+                <VersesSelector
+                  handleVerseClick={handleReferrerVerseClick}
+                  handleVersesAddressChange={() => {}}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item sm={6}>
+            <CrossReferenceDialog
+              fullScreen={fullScreen}
+              open={isDialogOpen}
+              handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
+              referredVersesAddress={referredVersesAddress}
+              handleCrossReference={handleCrossReference}
+              handleReferredVersesChange={handleReferredVersesChange}
+              handleDeleteCrossReference={handleDeleteCrossReference}
+              handleDeleteTopic={handleDeleteTopic}
+              handleRenameTopic={handleRenameTopic}
+              topicsFromReferrer={
+                (crossReferencesByVerse &&
+                  crossReferencesByVerse[referrerBook] &&
+                  crossReferencesByVerse[referrerBook][referrerChapter] &&
+                  crossReferencesByVerse[referrerBook][referrerChapter][
+                    referrerVerse
+                  ]) ||
+                []
+              }
+              topicsFromReferred={(referredVerses || []).reduce(
+                (acc, referredVerse) => [
+                  ...acc,
+                  ...((crossReferencesByVerse &&
+                    crossReferencesByVerse[referredBook] &&
+                    crossReferencesByVerse[referredBook][referredChapter] &&
+                    crossReferencesByVerse[referredBook][referredChapter][
+                      referredVerse
+                    ]) ||
+                    []),
+                ],
+
+                []
+              )}
+              crossReferencesByReferrer={(
+                (crossReferencesByVerse &&
+                  crossReferencesByVerse[referrerBook] &&
+                  crossReferencesByVerse[referrerBook][referrerChapter] &&
+                  crossReferencesByVerse[referrerBook][referrerChapter][
+                    referrerVerse
+                  ]) ||
+                []
+              ).map(topic => ({
+                topic,
+                content: crossReferencesByTopic[topic],
+              }))}
+            />
+          </Grid>
+        </Grid>
+      </Container>
+    </>
   );
 };
 
