@@ -15,6 +15,7 @@ export const VersesSelector = ({
   handleVersesAddressChange,
   buttonRender: RenderedView,
 }) => {
+  const [isFirstVerseSelection, setIsFirstVerseSelection] = useState(true);
   const [book, setBook] = useState(initialBook || 'Genesis');
   const [chapter, setChapter] = useState(initialChapter || '1');
   const [verses, setVerses] = useState(initialVerses || ['1']);
@@ -23,6 +24,7 @@ export const VersesSelector = ({
     setBook(e.target.value);
     setChapter('1');
     setVerses(['1']);
+    setIsFirstVerseSelection(true);
     handleVersesAddressChange({
       book: e.target.value,
       chapter: '1',
@@ -33,6 +35,7 @@ export const VersesSelector = ({
   const handleChapterChange = e => {
     setChapter(e.target.value);
     setVerses(['1']);
+    setIsFirstVerseSelection(true);
     handleVersesAddressChange({
       book,
       chapter: e.target.value,
@@ -52,6 +55,13 @@ export const VersesSelector = ({
         chapter,
         verses: allVerses,
       });
+    } else if (isFirstVerseSelection) {
+      const selectedVersesWithoutFirstSelection = e.target.value.filter(
+        selectedVerse => selectedVerse !== verses[0]
+      );
+
+      setVerses(selectedVersesWithoutFirstSelection);
+      setIsFirstVerseSelection(false);
     } else {
       setVerses(e.target.value);
       handleVersesAddressChange({
