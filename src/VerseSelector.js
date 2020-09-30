@@ -63,11 +63,13 @@ export const VersesSelector = ({
       setVerses(selectedVersesWithoutFirstSelection);
       setIsFirstVerseSelection(false);
     } else {
-      setVerses(e.target.value);
+      const selectedVerses = e.target.value.sort((i, j) => i - j);
+
+      setVerses(selectedVerses);
       handleVersesAddressChange({
         book,
         chapter,
-        verses: e.target.value,
+        verses: selectedVerses,
       });
     }
   };
