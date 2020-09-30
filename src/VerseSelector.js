@@ -46,7 +46,14 @@ export const VersesSelector = ({
   const handleVersesChange = e => {
     const selectedVerses = e.target.value;
 
-    if (selectedVerses.includes('0')) {
+    if (selectedVerses.includes('-1')) {
+      setVerses([]);
+      handleVersesAddressChange({
+        book,
+        chapter,
+        verses: [],
+      });
+    } else if (selectedVerses.includes('0')) {
       const allVerses = Object.keys(esv[book][chapter]).sort((i, j) => i - j);
 
       setVerses(allVerses);
@@ -135,9 +142,15 @@ export const VersesSelector = ({
               multiple
               displayEmpty
             >
-              <MenuItem key="0" value="0">
-                All
-              </MenuItem>
+              {Object.keys(esv[book][chapter]).length === verses.length ? (
+                <MenuItem key="-1" value="-1">
+                  None
+                </MenuItem>
+              ) : (
+                <MenuItem key="0" value="0">
+                  All
+                </MenuItem>
+              )}
               {Object.keys(esv[book][chapter])
                 .sort((i, j) => i - j)
                 .map(verse => (
