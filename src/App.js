@@ -244,7 +244,7 @@ export const App = () => {
       />
 
       <Container>
-        <Grid container>
+        <Grid justify="center" container>
           <Grid item sm={6}>
             <Grid container direction="column">
               <Grid item>
@@ -260,54 +260,52 @@ export const App = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item sm={6}>
-            <CrossReferenceDialog
-              fullScreen={fullScreen}
-              open={isDialogOpen}
-              handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
-              referredVersesAddress={referredVersesAddress}
-              handleCrossReference={handleCrossReference}
-              handleReferredVersesChange={handleReferredVersesChange}
-              handleDeleteCrossReference={handleDeleteCrossReference}
-              handleDeleteTopic={handleDeleteTopic}
-              handleRenameTopic={handleRenameTopic}
-              topicsFromReferrer={
-                (crossReferencesByVerse &&
-                  crossReferencesByVerse[referrerBook] &&
-                  crossReferencesByVerse[referrerBook][referrerChapter] &&
-                  crossReferencesByVerse[referrerBook][referrerChapter][
-                    referrerVerse
+          <CrossReferenceDialog
+            fullScreen={fullScreen}
+            open={isDialogOpen}
+            handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
+            referredVersesAddress={referredVersesAddress}
+            handleCrossReference={handleCrossReference}
+            handleReferredVersesChange={handleReferredVersesChange}
+            handleDeleteCrossReference={handleDeleteCrossReference}
+            handleDeleteTopic={handleDeleteTopic}
+            handleRenameTopic={handleRenameTopic}
+            topicsFromReferrer={
+              (crossReferencesByVerse &&
+                crossReferencesByVerse[referrerBook] &&
+                crossReferencesByVerse[referrerBook][referrerChapter] &&
+                crossReferencesByVerse[referrerBook][referrerChapter][
+                  referrerVerse
+                ]) ||
+              []
+            }
+            topicsFromReferred={(referredVerses || []).reduce(
+              (acc, referredVerse) => [
+                ...acc,
+                ...((crossReferencesByVerse &&
+                  crossReferencesByVerse[referredBook] &&
+                  crossReferencesByVerse[referredBook][referredChapter] &&
+                  crossReferencesByVerse[referredBook][referredChapter][
+                    referredVerse
                   ]) ||
-                []
-              }
-              topicsFromReferred={(referredVerses || []).reduce(
-                (acc, referredVerse) => [
-                  ...acc,
-                  ...((crossReferencesByVerse &&
-                    crossReferencesByVerse[referredBook] &&
-                    crossReferencesByVerse[referredBook][referredChapter] &&
-                    crossReferencesByVerse[referredBook][referredChapter][
-                      referredVerse
-                    ]) ||
-                    []),
-                ],
+                  []),
+              ],
 
-                []
-              )}
-              crossReferencesByReferrer={(
-                (crossReferencesByVerse &&
-                  crossReferencesByVerse[referrerBook] &&
-                  crossReferencesByVerse[referrerBook][referrerChapter] &&
-                  crossReferencesByVerse[referrerBook][referrerChapter][
-                    referrerVerse
-                  ]) ||
-                []
-              ).map(topic => ({
-                topic,
-                content: crossReferencesByTopic[topic],
-              }))}
-            />
-          </Grid>
+              []
+            )}
+            crossReferencesByReferrer={(
+              (crossReferencesByVerse &&
+                crossReferencesByVerse[referrerBook] &&
+                crossReferencesByVerse[referrerBook][referrerChapter] &&
+                crossReferencesByVerse[referrerBook][referrerChapter][
+                  referrerVerse
+                ]) ||
+              []
+            ).map(topic => ({
+              topic,
+              content: crossReferencesByTopic[topic],
+            }))}
+          />
         </Grid>
       </Container>
     </>

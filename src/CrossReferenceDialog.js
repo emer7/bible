@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  Dialog,
-  DialogContent,
   Button,
   Select,
   MenuItem,
@@ -12,8 +10,10 @@ import {
   IconButton,
   TextField,
   ListSubheader,
+  Modal,
 } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
+import { styled } from '@material-ui/styles';
 
 import { VersesSelector } from './VerseSelector';
 import { Verse, VerseWithHeading, VerseWithRangedHeading } from './Verse';
@@ -294,6 +294,24 @@ const CrossReferenceDialogContent = ({
   );
 };
 
+const InvisibleScrollableContainer = styled('div')({
+  height: '100vh',
+  overflowY: 'auto',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+  '-ms-overflow-style': 'none',
+  'scrollbar-width': 'none',
+});
+
+const InvisibleScrollablePopup = styled(InvisibleScrollableContainer)({
+  'max-width': 'min(600px, calc(100vw - 64px))',
+  'margin-left': 'auto',
+  'margin-right': 'auto',
+  'margin-top': 32,
+  'margin-bottom': 32,
+});
+
 export const CrossReferenceDialog = ({
   open,
   handleCloseCrossReferenceDialog,
@@ -301,11 +319,17 @@ export const CrossReferenceDialog = ({
   ...contentProps
 }) =>
   fullScreen ? (
-    <Dialog open={open} onClose={handleCloseCrossReferenceDialog}>
-      <DialogContent>
+    <Modal open={open} onClose={handleCloseCrossReferenceDialog}>
+      <InvisibleScrollablePopup>
         <CrossReferenceDialogContent {...contentProps} />
-      </DialogContent>
-    </Dialog>
+      </InvisibleScrollablePopup>
+    </Modal>
   ) : (
-    open && <CrossReferenceDialogContent {...contentProps} />
+    open && (
+      <Grid item sm={6}>
+        <InvisibleScrollableContainer>
+          <CrossReferenceDialogContent {...contentProps} />
+        </InvisibleScrollableContainer>
+      </Grid>
+    )
   );
