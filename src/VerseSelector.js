@@ -16,6 +16,7 @@ export const VersesSelector = ({
   buttonRender: RenderedView,
 }) => {
   const [isFirstVerseSelection, setIsFirstVerseSelection] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [book, setBook] = useState(initialBook || 'Genesis');
   const [chapter, setChapter] = useState(initialChapter || '1');
   const [verses, setVerses] = useState(initialVerses || ['1']);
@@ -24,23 +25,23 @@ export const VersesSelector = ({
     setBook(e.target.value);
     setChapter('1');
     setVerses(['1']);
-    setIsFirstVerseSelection(true);
     handleVersesAddressChange({
       book: e.target.value,
       chapter: '1',
       verses: ['1'],
     });
+    setIsFirstVerseSelection(true);
   };
 
   const handleChapterChange = e => {
     setChapter(e.target.value);
     setVerses(['1']);
-    setIsFirstVerseSelection(true);
     handleVersesAddressChange({
       book,
       chapter: e.target.value,
       verses: ['1'],
     });
+    setIsFirstVerseSelection(true);
   };
 
   const handleVersesChange = e => {
@@ -53,6 +54,8 @@ export const VersesSelector = ({
         chapter,
         verses: [],
       });
+      setIsFirstVerseSelection(true);
+      setIsOpen(false);
     } else if (selectedVerses.includes('0')) {
       const allVerses = Object.keys(esv[book][chapter]).sort((i, j) => i - j);
 
@@ -62,6 +65,8 @@ export const VersesSelector = ({
         chapter,
         verses: allVerses,
       });
+      setIsFirstVerseSelection(false);
+      setIsOpen(false);
     } else if (isFirstVerseSelection) {
       const selectedVersesWithoutFirstSelection = e.target.value.filter(
         selectedVerse => selectedVerse !== verses[0]
@@ -69,6 +74,7 @@ export const VersesSelector = ({
 
       setVerses(selectedVersesWithoutFirstSelection);
       setIsFirstVerseSelection(false);
+      setIsOpen(false);
     } else {
       const selectedVerses = e.target.value.sort((i, j) => i - j);
 
@@ -79,6 +85,16 @@ export const VersesSelector = ({
         verses: selectedVerses,
       });
     }
+  };
+
+  const handleOpenSelect = () => {
+    console.log('a');
+    setIsOpen(true);
+  };
+
+  const handleCloseSelect = () => {
+    console.log('b');
+    setIsOpen(false);
   };
 
   return (
@@ -107,7 +123,10 @@ export const VersesSelector = ({
           </Grid>
           <Grid item>
             <Select
+              open={isOpen}
               value={verses}
+              onOpen={handleOpenSelect}
+              onClose={handleCloseSelect}
               onChange={handleVersesChange}
               renderValue={values => {
                 if (!values.length) {
