@@ -327,6 +327,14 @@ export const CrossReferenceDialog = ({
   ) : (
     open && (
       <Grid item sm={6}>
+        <Button
+          fullWidth
+          variant="contained"
+          color="secondary"
+          onClick={handleCloseCrossReferenceDialog}
+        >
+          Close
+        </Button>
         <InvisibleScrollableContainer>
           <CrossReferenceDialogContent {...contentProps} />
         </InvisibleScrollableContainer>
