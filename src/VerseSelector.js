@@ -196,11 +196,11 @@ export const VersesSelector = ({
           <span>Please select a verse</span>
         )}
       </Grid>
-      <Grid item>
-        {RenderedButton && (
+      {RenderedButton && (
+        <Grid item>
           <RenderedButton book={book} chapter={chapter} verses={verses} />
-        )}
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 };
