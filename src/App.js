@@ -251,9 +251,9 @@ export const App = () => {
       />
 
       <Container>
-        <Grid justify="center" container>
+        <Grid justify="center" container spacing={3}>
           <Grid item sm={6}>
-            <Grid container direction="column">
+            <Grid container direction="column" spacing={2}>
               <Grid item>
                 <Button
                   fullWidth
@@ -267,10 +267,10 @@ export const App = () => {
               <Grid item>
                 <Card>
                   <CardContent>
-                <VersesSelector
-                  handleVerseClick={handleReferrerVerseClick}
-                  handleVersesAddressChange={() => {}}
-                />
+                    <VersesSelector
+                      handleVerseClick={handleReferrerVerseClick}
+                      handleVersesAddressChange={() => {}}
+                    />
                   </CardContent>
                 </Card>
               </Grid>

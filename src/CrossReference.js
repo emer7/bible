@@ -327,6 +327,8 @@ export const CrossReference = ({
   ) : (
     open && (
       <Grid item sm={6}>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
         <Button
           fullWidth
           variant="outlined"
@@ -335,9 +337,13 @@ export const CrossReference = ({
         >
           Close
         </Button>
+          </Grid>
+          <Grid item>
         <InvisibleScrollablePanel>
           <CrossReferenceContent {...contentProps} />
         </InvisibleScrollablePanel>
+      </Grid>
+        </Grid>
       </Grid>
     )
   );
