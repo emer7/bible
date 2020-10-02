@@ -295,7 +295,7 @@ const CrossReferenceContent = ({
 };
 
 const InvisibleScrollablePanel = styled('div')({
-  height: '100vh',
+  height: 'calc(100vh - 52px - 16px)',
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
     display: 'none',
@@ -305,11 +305,12 @@ const InvisibleScrollablePanel = styled('div')({
 });
 
 const InvisibleScrollablePopup = styled(InvisibleScrollablePanel)({
+  height: '100vh',
   'max-width': 'min(600px, calc(100vw - 64px))',
+  padding: '32px 0',
   'margin-left': 'auto',
   'margin-right': 'auto',
-  'margin-top': 32,
-  'margin-bottom': 32,
+  outline: 0,
 });
 
 export const CrossReference = ({
@@ -329,20 +330,20 @@ export const CrossReference = ({
       <Grid item sm={6}>
         <Grid container direction="column" spacing={2}>
           <Grid item>
-        <Button
-          fullWidth
+            <Button
+              fullWidth
               variant="contained"
-          color="secondary"
-          onClick={handleCloseCrossReference}
-        >
-          Close
-        </Button>
+              color="secondary"
+              onClick={handleCloseCrossReference}
+            >
+              Close
+            </Button>
           </Grid>
           <Grid item>
-        <InvisibleScrollablePanel>
-          <CrossReferenceContent {...contentProps} />
-        </InvisibleScrollablePanel>
-      </Grid>
+            <InvisibleScrollablePanel>
+              <CrossReferenceContent {...contentProps} />
+            </InvisibleScrollablePanel>
+          </Grid>
         </Grid>
       </Grid>
     )
