@@ -5,7 +5,14 @@ import { Popupmenu } from './PopupMenu';
 import { CrossReference } from './CrossReference';
 
 import { removeDuplicate, flatMapBibleObjectTree } from './utils';
-import { Button, Container, Grid, useMediaQuery } from '@material-ui/core';
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  useMediaQuery,
+} from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
 export const App = () => {
@@ -258,10 +265,14 @@ export const App = () => {
                 </Button>
               </Grid>
               <Grid item>
+                <Card>
+                  <CardContent>
                 <VersesSelector
                   handleVerseClick={handleReferrerVerseClick}
                   handleVersesAddressChange={() => {}}
                 />
+                  </CardContent>
+                </Card>
               </Grid>
             </Grid>
           </Grid>
