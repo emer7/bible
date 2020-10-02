@@ -2,7 +2,7 @@ import React from 'react';
 
 import { VersesSelector } from './VerseSelector';
 import { Popupmenu } from './PopupMenu';
-import { CrossReferenceDialog } from './CrossReferenceDialog';
+import { CrossReference } from './CrossReference';
 
 import { removeDuplicate, flatMapBibleObjectTree } from './utils';
 import { Button, Container, Grid, useMediaQuery } from '@material-ui/core';
@@ -13,7 +13,7 @@ export const App = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [isCrossReferenceOpen, setIsCrossReferenceOpen] = React.useState(false);
 
   const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
   const [referredVersesAddress, setReferredVersesAddress] = React.useState({});
@@ -47,12 +47,12 @@ export const App = () => {
     setAnchorEl(null);
   };
 
-  const handleOpenCrossReferenceDialog = () => {
-    setIsDialogOpen(true);
+  const handleOpenCrossReference = () => {
+    setIsCrossReferenceOpen(true);
   };
 
-  const handleCloseCrossReferenceDialog = () => {
-    setIsDialogOpen(false);
+  const handleCloseCrossReference = () => {
+    setIsCrossReferenceOpen(false);
   };
 
   const handleReferrerVerseClick = (e, verseAddress) => {
@@ -240,7 +240,7 @@ export const App = () => {
       <Popupmenu
         anchorEl={anchorEl}
         handleClosePopupMenu={handleClosePopupMenu}
-        handleOpenCrossReferenceDialog={handleOpenCrossReferenceDialog}
+        handleOpenCrossReference={handleOpenCrossReference}
       />
 
       <Container>
@@ -260,10 +260,10 @@ export const App = () => {
               </Grid>
             </Grid>
           </Grid>
-          <CrossReferenceDialog
+          <CrossReference
             fullScreen={fullScreen}
-            open={isDialogOpen}
-            handleCloseCrossReferenceDialog={handleCloseCrossReferenceDialog}
+            open={isCrossReferenceOpen}
+            handleCloseCrossReference={handleCloseCrossReference}
             referredVersesAddress={referredVersesAddress}
             handleCrossReference={handleCrossReference}
             handleReferredVersesChange={handleReferredVersesChange}

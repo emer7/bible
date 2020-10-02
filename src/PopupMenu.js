@@ -5,11 +5,11 @@ import { Popover, ButtonGroup, Button } from '@material-ui/core';
 export const Popupmenu = ({
   anchorEl,
   handleClosePopupMenu,
-  handleOpenCrossReferenceDialog,
+  handleOpenCrossReference,
 }) => {
   const handleClickCrossReference = () => {
     handleClosePopupMenu();
-    handleOpenCrossReferenceDialog();
+    handleOpenCrossReference();
   };
   
   return (

@@ -37,7 +37,7 @@ const ConfirmButton = (topic, handleCrossReference) => ({
   return <Button onClick={handleOnClick}>Confirm</Button>;
 };
 
-const CrossReferenceDialogContent = ({
+const CrossReferenceContent = ({
   referredVersesAddress,
   handleCrossReference,
   handleReferredVersesChange,
@@ -294,7 +294,7 @@ const CrossReferenceDialogContent = ({
   );
 };
 
-const InvisibleScrollableContainer = styled('div')({
+const InvisibleScrollablePanel = styled('div')({
   height: '100vh',
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
@@ -304,7 +304,7 @@ const InvisibleScrollableContainer = styled('div')({
   'scrollbar-width': 'none',
 });
 
-const InvisibleScrollablePopup = styled(InvisibleScrollableContainer)({
+const InvisibleScrollablePopup = styled(InvisibleScrollablePanel)({
   'max-width': 'min(600px, calc(100vw - 64px))',
   'margin-left': 'auto',
   'margin-right': 'auto',
@@ -312,16 +312,16 @@ const InvisibleScrollablePopup = styled(InvisibleScrollableContainer)({
   'margin-bottom': 32,
 });
 
-export const CrossReferenceDialog = ({
+export const CrossReference = ({
   open,
-  handleCloseCrossReferenceDialog,
+  handleCloseCrossReference,
   fullScreen,
   ...contentProps
 }) =>
   fullScreen ? (
-    <Modal open={open} onClose={handleCloseCrossReferenceDialog}>
+    <Modal open={open} onClose={handleCloseCrossReference}>
       <InvisibleScrollablePopup>
-        <CrossReferenceDialogContent {...contentProps} />
+        <CrossReferenceContent {...contentProps} />
       </InvisibleScrollablePopup>
     </Modal>
   ) : (
@@ -331,13 +331,13 @@ export const CrossReferenceDialog = ({
           fullWidth
           variant="contained"
           color="secondary"
-          onClick={handleCloseCrossReferenceDialog}
+          onClick={handleCloseCrossReference}
         >
           Close
         </Button>
-        <InvisibleScrollableContainer>
-          <CrossReferenceDialogContent {...contentProps} />
-        </InvisibleScrollableContainer>
+        <InvisibleScrollablePanel>
+          <CrossReferenceContent {...contentProps} />
+        </InvisibleScrollablePanel>
       </Grid>
     )
   );
