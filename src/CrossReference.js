@@ -327,7 +327,7 @@ export const CrossReference = ({
     </Modal>
   ) : (
     open && (
-      <Grid item sm={6}>
+      <Grid item xs={12} sm={10} md={6}>
         <Grid container direction="column" spacing={2}>
           <Grid item>
             <Button

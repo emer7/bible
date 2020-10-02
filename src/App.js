@@ -252,7 +252,7 @@ export const App = () => {
 
       <Container>
         <Grid justify="center" container spacing={3}>
-          <Grid item sm={6}>
+          <Grid item xs={12} sm={10} md={6}>
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <Button
