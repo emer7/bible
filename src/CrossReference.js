@@ -302,14 +302,15 @@ const InvisibleScrollablePanel = styled('div')({
   },
   '-ms-overflow-style': 'none',
   'scrollbar-width': 'none',
+  margin: '0 -8px',
+  padding: '0 8px',
 });
 
 const InvisibleScrollablePopup = styled(InvisibleScrollablePanel)({
   height: '100vh',
   'max-width': 'min(600px, calc(100vw - 64px))',
+  margin: '0 auto',
   padding: '32px 0',
-  'margin-left': 'auto',
-  'margin-right': 'auto',
   outline: 0,
 });
 
