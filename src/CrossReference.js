@@ -329,7 +329,7 @@ export const CrossReference = ({
       <Grid item sm={6}>
         <Button
           fullWidth
-          variant="contained"
+          variant="outlined"
           color="secondary"
           onClick={handleCloseCrossReference}
         >

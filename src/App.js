@@ -248,7 +248,12 @@ export const App = () => {
           <Grid item sm={6}>
             <Grid container direction="column">
               <Grid item>
-                <Button fullWidth onClick={handleLocalStorage}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleLocalStorage}
+                >
                   Save
                 </Button>
               </Grid>
