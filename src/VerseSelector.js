@@ -13,7 +13,7 @@ export const VersesSelector = ({
   initialVerses,
   handleVerseClick,
   handleVersesAddressChange,
-  buttonRender: RenderedView,
+  buttonRender: RenderedButton,
 }) => {
   const [isFirstVerseSelection, setIsFirstVerseSelection] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -197,8 +197,8 @@ export const VersesSelector = ({
         )}
       </Grid>
       <Grid item>
-        {RenderedView && (
-          <RenderedView book={book} chapter={chapter} verses={verses} />
+        {RenderedButton && (
+          <RenderedButton book={book} chapter={chapter} verses={verses} />
         )}
       </Grid>
     </Grid>
