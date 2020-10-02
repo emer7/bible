@@ -285,7 +285,7 @@ const CrossReferenceContent = ({
             </CardContent>
           </Card>
         ) : (
-          <Button variant="text" onClick={handleOpenSelector} fullWidth>
+          <Button variant="contained" onClick={handleOpenSelector} fullWidth>
             Add Reference
           </Button>
         )}
@@ -331,7 +331,7 @@ export const CrossReference = ({
           <Grid item>
         <Button
           fullWidth
-          variant="outlined"
+              variant="contained"
           color="secondary"
           onClick={handleCloseCrossReference}
         >

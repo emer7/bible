@@ -257,7 +257,7 @@ export const App = () => {
               <Grid item>
                 <Button
                   fullWidth
-                  variant="outlined"
+                  variant="contained"
                   color="primary"
                   onClick={handleLocalStorage}
                 >
