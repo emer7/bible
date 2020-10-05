@@ -295,15 +295,15 @@ const CrossReferenceContent = ({
 };
 
 const InvisibleScrollablePanel = styled('div')({
-  height: 'calc(100vh - 52px - 16px)',
+  height: 'calc(100vh - 36px - 8px - 8px - 8px - 4px + 8px)',
+  margin: '0 -8px -8px -8px',
+  padding: '0 8px',
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
     display: 'none',
   },
   '-ms-overflow-style': 'none',
   'scrollbar-width': 'none',
-  margin: '0 -8px',
-  padding: '0 8px',
 });
 
 const InvisibleScrollablePopup = styled(InvisibleScrollablePanel)({
