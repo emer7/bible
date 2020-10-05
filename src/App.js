@@ -34,6 +34,10 @@ export const App = () => {
     chapter: referredChapter,
     verses: referredVerses,
   } = referredVersesAddress;
+  const [
+    setReferrerAndReferedHandler,
+    setSetReferrerAndReferredHandler,
+  ] = React.useState(() => () => {});
 
   const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
     JSON.parse(localStorage.getItem('cfByTopic') || '{}')
@@ -66,8 +70,11 @@ export const App = () => {
     const { book, chapter, verse } = verseAddress;
 
     handleOpenPopupMenu(e);
-    setReferrerVerseAddress(verseAddress);
-    setReferredVersesAddress({ book, chapter, verses: [verse] });
+
+    setSetReferrerAndReferredHandler(() => () => {
+      setReferrerVerseAddress(verseAddress);
+      setReferredVersesAddress({ book, chapter, verses: [verse] });
+    });
   };
 
   const handleReferredVersesChange = versesAddress => {
@@ -248,6 +255,7 @@ export const App = () => {
         anchorEl={anchorEl}
         handleClosePopupMenu={handleClosePopupMenu}
         handleOpenCrossReference={handleOpenCrossReference}
+        handleSetReferrerAndReferred={setReferrerAndReferedHandler}
       />
 
       <Container>

@@ -6,12 +6,14 @@ export const Popupmenu = ({
   anchorEl,
   handleClosePopupMenu,
   handleOpenCrossReference,
+  handleSetReferrerAndReferred,
 }) => {
   const handleClickCrossReference = () => {
     handleClosePopupMenu();
     handleOpenCrossReference();
+    handleSetReferrerAndReferred();
   };
-  
+
   return (
     <Popover
       open={Boolean(anchorEl)}
