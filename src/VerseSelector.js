@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
-import { Select, MenuItem, Grid } from '@material-ui/core';
+import { Select, MenuItem, Grid, styled } from '@material-ui/core';
 
 import { Verse } from './Verse';
 
 import esv from './ESV.json';
 
 import { cannonArr } from './consts';
+
+const InvisibleScrollablePanel = styled('div')({
+  'max-height': 'calc(100vh - 52px - 16px - 84px)',
+  overflowY: 'auto',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+  '-ms-overflow-style': 'none',
+  'scrollbar-width': 'none',
+});
 
 export const VersesSelector = ({
   initialBook,
@@ -88,12 +98,10 @@ export const VersesSelector = ({
   };
 
   const handleOpenSelect = () => {
-    console.log('a');
     setIsOpen(true);
   };
 
   const handleCloseSelect = () => {
-    console.log('b');
     setIsOpen(false);
   };
 
@@ -182,19 +190,21 @@ export const VersesSelector = ({
         </Grid>
       </Grid>
       <Grid item>
-        {verses.length ? (
-          verses.map(verse => (
-            <Verse
-              key={`${book}${chapter}:${verse}`}
-              book={book}
-              chapter={chapter}
-              verse={verse}
-              handleVerseClick={handleVerseClick}
-            />
-          ))
-        ) : (
-          <span>Please select a verse</span>
-        )}
+        <InvisibleScrollablePanel>
+          {verses.length ? (
+            verses.map(verse => (
+              <Verse
+                key={`${book}${chapter}:${verse}`}
+                book={book}
+                chapter={chapter}
+                verse={verse}
+                handleVerseClick={handleVerseClick}
+              />
+            ))
+          ) : (
+            <span>Please select a verse</span>
+          )}
+        </InvisibleScrollablePanel>
       </Grid>
       {RenderedButton && (
         <Grid item>
