@@ -10,6 +10,8 @@ const SpanWithPointer = styled(({ highlight, ...props }) => (
   cursor: 'pointer',
 });
 
+const DivWithBold = styled('div')({ 'font-weight': 'bold' });
+
 export const Verse = ({
   book,
   chapter,
@@ -34,14 +36,12 @@ export const Verse = ({
 
 export const VerseWithHeading = ({ book, chapter, verse, ...props }) => {
   return (
-    <div>
-      <div>
-        <b>
-          {book} {chapter}:{verse}
-        </b>
-      </div>
+    <>
+      <DivWithBold>
+        {book} {chapter}:{verse}
+      </DivWithBold>
       <Verse book={book} chapter={chapter} verse={verse} {...props} />
-    </div>
+    </>
   );
 };
 
@@ -54,11 +54,9 @@ export const VerseWithRangedHeading = ({
 }) => {
   return (
     <>
-      <div>
-        <b>
-          {book} {chapter}:{startVerse} - {endVerse}
-        </b>
-      </div>
+      <DivWithBold>
+        {book} {chapter}:{startVerse} - {endVerse}
+      </DivWithBold>
       <Verse book={book} chapter={chapter} verse={startVerse} {...props} />
     </>
   );
