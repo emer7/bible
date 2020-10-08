@@ -7,11 +7,17 @@ export const Popupmenu = ({
   handleClosePopupMenu,
   handleOpenCrossReference,
   handleSetReferrerAndReferred,
+  handleSetHighlight,
 }) => {
   const handleClickCrossReference = () => {
     handleClosePopupMenu();
     handleOpenCrossReference();
     handleSetReferrerAndReferred();
+  };
+
+  const handleClickHighlight = () => {
+    handleClosePopupMenu();
+    handleSetHighlight();
   };
 
   return (
@@ -29,7 +35,7 @@ export const Popupmenu = ({
       }}
     >
       <ButtonGroup size="small" color="primary">
-        <Button>Highlight</Button>
+        <Button onClick={handleClickHighlight}>Highlight</Button>
         <Button onClick={handleClickCrossReference}>Cross-reference</Button>
         <Button>Copy</Button>
       </ButtonGroup>

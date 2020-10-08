@@ -24,6 +24,7 @@ export const App = () => {
 
   const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
   const [referredVersesAddress, setReferredVersesAddress] = React.useState({});
+
   const {
     book: referrerBook,
     chapter: referrerChapter,
@@ -34,9 +35,14 @@ export const App = () => {
     chapter: referredChapter,
     verses: referredVerses,
   } = referredVersesAddress;
+
   const [
     setReferrerAndReferedHandler,
     setSetReferrerAndReferredHandler,
+  ] = React.useState(() => () => {});
+  const [
+    setHighlightHandler,
+    setSetHighlightHandler,
   ] = React.useState(() => () => {});
 
   const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
@@ -45,9 +51,17 @@ export const App = () => {
   const [crossReferencesByVerse, setCrossReferencesByVerse] = React.useState(
     JSON.parse(localStorage.getItem('cfByVerse') || '{}')
   );
+  const [highlightsByVerse, setHighlightsByVerse] = React.useState(
+    JSON.parse(localStorage.getItem('highlightsByVerse') || '{}')
+  );
+
   const handleLocalStorage = () => {
     localStorage.setItem('cfByVerse', JSON.stringify(crossReferencesByVerse));
     localStorage.setItem('cfByTopic', JSON.stringify(crossReferencesByTopic));
+    localStorage.setItem(
+      'highlightsByVerse',
+      JSON.stringify(highlightsByVerse)
+    );
   };
 
   const handleOpenPopupMenu = e => {
@@ -74,6 +88,20 @@ export const App = () => {
     setSetReferrerAndReferredHandler(() => () => {
       setReferrerVerseAddress(verseAddress);
       setReferredVersesAddress({ book, chapter, verses: [verse] });
+    });
+
+    setSetHighlightHandler(() => () => {
+      const newHighlightsByVerse = { ...highlightsByVerse };
+
+      newHighlightsByVerse[book] = {
+        ...(newHighlightsByVerse[book] || {}),
+      };
+      newHighlightsByVerse[book][chapter] = [
+        ...(newHighlightsByVerse[book][chapter] || []),
+        verse,
+      ].filter(removeDuplicate);
+
+      setHighlightsByVerse(newHighlightsByVerse);
     });
   };
 
@@ -256,6 +284,7 @@ export const App = () => {
         handleClosePopupMenu={handleClosePopupMenu}
         handleOpenCrossReference={handleOpenCrossReference}
         handleSetReferrerAndReferred={setReferrerAndReferedHandler}
+        handleSetHighlight={setHighlightHandler}
       />
 
       <Container>
@@ -276,6 +305,7 @@ export const App = () => {
                 <Card>
                   <CardContent>
                     <VersesSelector
+                      highlightsByVerse={highlightsByVerse}
                       handleVerseClick={handleReferrerVerseClick}
                       handleVersesAddressChange={() => {}}
                     />
