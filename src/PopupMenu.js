@@ -37,7 +37,6 @@ export const Popupmenu = ({
       <ButtonGroup size="small" color="primary">
         <Button onClick={handleClickHighlight}>Highlight</Button>
         <Button onClick={handleClickCrossReference}>Cross-reference</Button>
-        <Button>Copy</Button>
       </ButtonGroup>
     </Popover>
   );
