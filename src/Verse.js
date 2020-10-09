@@ -17,7 +17,7 @@ export const Verse = ({
   book,
   chapter,
   verse,
-  handleVerseClick,
+  handleVerseClick = () => {},
   highlight,
   isClicked,
 }) => {

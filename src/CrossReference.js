@@ -267,7 +267,6 @@ const CrossReferenceContent = ({
                     initialBook={book}
                     initialChapter={chapter}
                     initialVerses={verses}
-                    handleVerseClick={() => {}}
                     handleVersesAddressChange={handleVersesAddressChange}
                     buttonRender={ConfirmButton(
                       topic === NEW_DEFAULT_TOPIC

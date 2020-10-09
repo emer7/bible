@@ -24,7 +24,7 @@ export const VersesSelector = ({
   clickedVerseAddress = {},
   highlightsByVerse,
   handleVerseClick,
-  handleVersesAddressChange,
+  handleVersesAddressChange = () => {},
   buttonRender: RenderedButton,
 }) => {
   const [isFirstVerseSelection, setIsFirstVerseSelection] = useState(true);
@@ -201,7 +201,6 @@ export const VersesSelector = ({
                 chapter={chapter}
                 verse={verse}
                 highlight={
-                  highlightsByVerse &&
                   highlightsByVerse[book] &&
                   highlightsByVerse[book][chapter] &&
                   highlightsByVerse[book][chapter].includes(verse)

@@ -303,7 +303,6 @@ export const App = () => {
                       clickedVerseAddress={clickedVerseAddress}
                       highlightsByVerse={highlightsByVerse}
                       handleVerseClick={handleReferrerVerseClick}
-                      handleVersesAddressChange={() => {}}
                     />
                   </CardContent>
                 </Card>
