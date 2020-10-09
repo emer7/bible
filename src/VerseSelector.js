@@ -22,7 +22,7 @@ export const VersesSelector = ({
   initialChapter,
   initialVerses,
   clickedVerseAddress = {},
-  highlightsByVerse,
+  highlightsByVerse = {},
   handleVerseClick,
   handleVersesAddressChange = () => {},
   buttonRender: RenderedButton,
