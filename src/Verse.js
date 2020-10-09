@@ -3,9 +3,10 @@ import { styled } from '@material-ui/core/styles';
 
 import esv from './ESV.json';
 
-const SpanWithPointer = styled(({ highlight, ...props }) => (
+const SpanWithPointer = styled(({ highlight, isClicked, ...props }) => (
   <span {...props} />
 ))({
+  'border-bottom': ({ isClicked }) => (isClicked ? 'dotted black' : 'none'),
   'background-color': ({ highlight }) => (highlight ? 'yellow' : 'none'),
   cursor: 'pointer',
 });
@@ -18,13 +19,18 @@ export const Verse = ({
   verse,
   handleVerseClick,
   highlight,
+  isClicked,
 }) => {
   const handleOnClick = e => {
     handleVerseClick(e, { book, chapter, verse });
   };
 
   return (
-    <SpanWithPointer highlight={highlight} onClick={handleOnClick}>
+    <SpanWithPointer
+      highlight={highlight}
+      onClick={handleOnClick}
+      isClicked={isClicked}
+    >
       <sup>{verse}</sup>
       <span>
         {esv[book][chapter][verse]}

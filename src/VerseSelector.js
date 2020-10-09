@@ -21,6 +21,7 @@ export const VersesSelector = ({
   initialBook,
   initialChapter,
   initialVerses,
+  clickedVerseAddress = {},
   highlightsByVerse,
   handleVerseClick,
   handleVersesAddressChange,
@@ -204,6 +205,11 @@ export const VersesSelector = ({
                   highlightsByVerse[book] &&
                   highlightsByVerse[book][chapter] &&
                   highlightsByVerse[book][chapter].includes(verse)
+                }
+                isClicked={
+                  clickedVerseAddress.book === book &&
+                  clickedVerseAddress.chapter === chapter &&
+                  clickedVerseAddress.verse === verse
                 }
                 handleVerseClick={handleVerseClick}
               />
