@@ -5,7 +5,7 @@ import { Verse } from './Verse';
 
 import esv from './ESV.json';
 
-import { cannonArr } from './consts';
+import { NTArr, OTArr } from './consts';
 
 const InvisibleScrollablePanel = styled('div')({
   'max-height': 'calc(100vh - 52px - 16px - 84px)',
@@ -113,7 +113,14 @@ export const VersesSelector = ({
         <Grid container spacing={1}>
           <Grid item>
             <Select value={book} onChange={handleBookChange}>
-              {cannonArr.map(book => (
+              <MenuItem disabled>Old Testament</MenuItem>
+              {OTArr.map(book => (
+                <MenuItem key={book} value={book}>
+                  {book}
+                </MenuItem>
+              ))}
+              <MenuItem disabled>New Testament</MenuItem>
+              {NTArr.map(book => (
                 <MenuItem key={book} value={book}>
                   {book}
                 </MenuItem>

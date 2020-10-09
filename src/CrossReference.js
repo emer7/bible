@@ -241,7 +241,7 @@ const CrossReferenceContent = ({
                         <MenuItem value={NEW_CUSTOM_TOPIC}>
                           Custom topic
                         </MenuItem>
-                        <ListSubheader>Available topics</ListSubheader>
+                        <MenuItem disabled>Available topics</MenuItem>
                         {[...topicsFromReferrer, ...topicsFromReferred]
                           .filter(removeDuplicate)
                           .map(topicOption => (
