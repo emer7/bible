@@ -22,6 +22,7 @@ export const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isCrossReferenceOpen, setIsCrossReferenceOpen] = React.useState(false);
 
+  const [clickedVerseAddress, setClickedVerseAddress] = React.useState({});
   const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
   const [referredVersesAddress, setReferredVersesAddress] = React.useState({});
 
@@ -35,15 +36,6 @@ export const App = () => {
     chapter: referredChapter,
     verses: referredVerses,
   } = referredVersesAddress;
-
-  const [
-    setReferrerAndReferedHandler,
-    setSetReferrerAndReferredHandler,
-  ] = React.useState(() => () => {});
-  const [
-    setHighlightHandler,
-    setSetHighlightHandler,
-  ] = React.useState(() => () => {});
 
   const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
     JSON.parse(localStorage.getItem('cfByTopic') || '{}')
@@ -81,28 +73,8 @@ export const App = () => {
   };
 
   const handleReferrerVerseClick = (e, verseAddress) => {
-    const { book, chapter, verse } = verseAddress;
-
     handleOpenPopupMenu(e);
-
-    setSetReferrerAndReferredHandler(() => () => {
-      setReferrerVerseAddress(verseAddress);
-      setReferredVersesAddress({ book, chapter, verses: [verse] });
-    });
-
-    setSetHighlightHandler(() => () => {
-      const newHighlightsByVerse = { ...highlightsByVerse };
-
-      newHighlightsByVerse[book] = {
-        ...(newHighlightsByVerse[book] || {}),
-      };
-      newHighlightsByVerse[book][chapter] = [
-        ...(newHighlightsByVerse[book][chapter] || []),
-        verse,
-      ].filter(removeDuplicate);
-
-      setHighlightsByVerse(newHighlightsByVerse);
-    });
+    setClickedVerseAddress(verseAddress);
   };
 
   const handleReferredVersesChange = versesAddress => {
@@ -277,14 +249,37 @@ export const App = () => {
     }
   };
 
+  const handleSetReferrerAndReferred = () => {
+    const { book, chapter, verse } = clickedVerseAddress;
+
+    setReferrerVerseAddress(clickedVerseAddress);
+    setReferredVersesAddress({ book, chapter, verses: [verse] });
+  };
+
+  const handleSetHighlight = () => {
+    const { book, chapter, verse } = clickedVerseAddress;
+
+    const newHighlightsByVerse = { ...highlightsByVerse };
+
+    newHighlightsByVerse[book] = {
+      ...(newHighlightsByVerse[book] || {}),
+    };
+    newHighlightsByVerse[book][chapter] = [
+      ...(newHighlightsByVerse[book][chapter] || []),
+      verse,
+    ].filter(removeDuplicate);
+
+    setHighlightsByVerse(newHighlightsByVerse);
+  };
+
   return (
     <>
       <Popupmenu
         anchorEl={anchorEl}
         handleClosePopupMenu={handleClosePopupMenu}
         handleOpenCrossReference={handleOpenCrossReference}
-        handleSetReferrerAndReferred={setReferrerAndReferedHandler}
-        handleSetHighlight={setHighlightHandler}
+        handleSetReferrerAndReferred={handleSetReferrerAndReferred}
+        handleSetHighlight={handleSetHighlight}
       />
 
       <Container>
