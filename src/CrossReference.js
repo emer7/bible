@@ -9,7 +9,6 @@ import {
   CardContent,
   IconButton,
   TextField,
-  ListSubheader,
   Modal,
 } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
@@ -144,7 +143,10 @@ const CrossReferenceContent = ({
               />
               <CardContent>
                 {
-                  flatMapBibleObjectTree(content, mapToVerseAddress).reduce(
+                  flatMapBibleObjectTree(
+                    content,
+                    mapToVerseAddress
+                  ).reduce(
                     (acc, { book, chapter, verse }, index, verseAddresses) => {
                       if (index > 0) {
                         const previousIndex = index - 1;
