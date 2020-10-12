@@ -19,6 +19,7 @@ export const Verse = ({
   verse,
   handleVerseClick = () => {},
   highlight,
+  passedRefs = [],
   isClicked,
 }) => {
   const handleOnClick = e => {
@@ -26,17 +27,22 @@ export const Verse = ({
   };
 
   return (
-    <SpanWithPointer
-      highlight={highlight}
-      onClick={handleOnClick}
-      isClicked={isClicked}
-    >
-      <sup>{verse}</sup>
-      <span>
-        {esv[book][chapter][verse]}
-        {' ' /* remove, use CSS instead */}
-      </span>
-    </SpanWithPointer>
+    <>
+      <SpanWithPointer
+        highlight={highlight}
+        onClick={handleOnClick}
+        isClicked={isClicked}
+      >
+        <sup>{verse}</sup>
+        <span>
+          {esv[book][chapter][verse].split(' ').map((word, index) => (
+            <span ref={passedRefs[index]}>{word} </span>
+          ))}
+          {/* {esv[book][chapter][verse]} */}
+          {' ' /* remove, use CSS instead */}
+        </span>
+      </SpanWithPointer>
+    </>
   );
 };
 

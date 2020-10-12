@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Select, MenuItem, Grid, styled } from '@material-ui/core';
 
-import { Verse } from './Verse';
-
 import esv from './ESV.json';
-
 import { NTArr, OTArr } from './consts';
 
+import { Passage } from './Passage';
+
 const InvisibleScrollablePanel = styled('div')({
+  position: 'relative',
   'max-height': 'calc(100vh - 52px - 16px - 84px)',
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
@@ -31,7 +31,9 @@ export const VersesSelector = ({
   const [isOpen, setIsOpen] = useState(false);
   const [book, setBook] = useState(initialBook || 'Genesis');
   const [chapter, setChapter] = useState(initialChapter || '1');
-  const [verses, setVerses] = useState(initialVerses || ['1']);
+  const [verses, setVerses] = useState(
+    initialVerses || Object.keys(esv['Genesis']['1'])
+  );
 
   const handleBookChange = e => {
     setBook(e.target.value);
@@ -201,25 +203,14 @@ export const VersesSelector = ({
       <Grid item>
         <InvisibleScrollablePanel>
           {verses.length ? (
-            verses.map(verse => (
-              <Verse
-                key={`${book}${chapter}:${verse}`}
-                book={book}
-                chapter={chapter}
-                verse={verse}
-                highlight={
-                  highlightsByVerse[book] &&
-                  highlightsByVerse[book][chapter] &&
-                  highlightsByVerse[book][chapter].includes(verse)
-                }
-                isClicked={
-                  clickedVerseAddress.book === book &&
-                  clickedVerseAddress.chapter === chapter &&
-                  clickedVerseAddress.verse === verse
-                }
-                handleVerseClick={handleVerseClick}
-              />
-            ))
+            <Passage
+              book={book}
+              chapter={chapter}
+              verses={verses}
+              highlightsByVerse={highlightsByVerse}
+              clickedVerseAddress={clickedVerseAddress}
+              handleVerseClick={handleVerseClick}
+            />
           ) : (
             <span>Please select a verse</span>
           )}
