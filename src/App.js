@@ -12,8 +12,8 @@ import {
   Container,
   Grid,
   useMediaQuery,
+  useTheme,
 } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
 
 export const App = () => {
   const theme = useTheme();
