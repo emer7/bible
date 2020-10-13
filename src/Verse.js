@@ -26,12 +26,8 @@ export const Verse = ({
   };
 
   return (
-    <SpanWithPointer
-      highlight={highlight}
-      onClick={handleOnClick}
-      isClicked={isClicked}
-    >
-      <sup>{verse}</sup>
+    <SpanWithPointer highlight={highlight} isClicked={isClicked}>
+      <sup onClick={handleOnClick}>{verse}</sup>
       <span>
         {esv[book][chapter][verse]}
         {' ' /* remove, use CSS instead */}
