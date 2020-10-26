@@ -3,7 +3,7 @@ import { Select, MenuItem, Grid, styled } from '@material-ui/core';
 
 import { Verse } from './Verse';
 
-import esv from './ESV.json';
+import esv from './resources/ESV.json';
 
 import { NTArr, OTArr } from './consts';
 

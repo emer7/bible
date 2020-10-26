@@ -15,6 +15,11 @@ import {
   useTheme,
 } from '@material-ui/core';
 
+import {
+  cfByTopic as laiCfByTopic,
+  cfByVerse as laiCfByVerse,
+} from './resources/LAICrossReferences.json';
+
 export const App = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -38,10 +43,14 @@ export const App = () => {
   } = referredVersesAddress;
 
   const [crossReferencesByTopic, setCrossReferencesByTopic] = React.useState(
-    JSON.parse(localStorage.getItem('cfByTopic') || '{}')
+    localStorage.getItem('cfByTopic')
+      ? JSON.parse(localStorage.getItem('cfByTopic'))
+      : laiCfByTopic
   );
   const [crossReferencesByVerse, setCrossReferencesByVerse] = React.useState(
-    JSON.parse(localStorage.getItem('cfByVerse') || '{}')
+    localStorage.getItem('cfByVerse')
+      ? JSON.parse(localStorage.getItem('cfByVerse'))
+      : laiCfByVerse
   );
   const [highlightsByVerse, setHighlightsByVerse] = React.useState(
     JSON.parse(localStorage.getItem('highlightsByVerse') || '{}')

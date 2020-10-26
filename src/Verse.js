@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@material-ui/core';
 
-import esv from './ESV.json';
+import esv from './resources/ESV.json';
 
 const SpanWithPointer = styled(({ highlight, isClicked, ...props }) => (
   <span {...props} />
