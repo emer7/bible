@@ -30,6 +30,9 @@ export const App = () => {
   const [clickedVerseAddress, setClickedVerseAddress] = React.useState({});
   const [referrerVerseAddress, setReferrerVerseAddress] = React.useState({});
   const [referredVersesAddress, setReferredVersesAddress] = React.useState({});
+  const [isMouseHold, setIsMouseHold] = React.useState(false);
+  const [source, setSource] = React.useState();
+  const [destination, setDestintion] = React.useState();
 
   const {
     book: referrerBook,
@@ -55,6 +58,9 @@ export const App = () => {
   const [highlightsByVerse, setHighlightsByVerse] = React.useState(
     JSON.parse(localStorage.getItem('highlightsByVerse') || '{}')
   );
+  const [scribbleByWord, setScribble] = React.useState(
+    JSON.parse(localStorage.getItem('scribbleByWord') || '{}')
+  );
 
   const handleLocalStorage = () => {
     localStorage.setItem('cfByVerse', JSON.stringify(crossReferencesByVerse));
@@ -79,6 +85,15 @@ export const App = () => {
 
   const handleCloseCrossReference = () => {
     setIsCrossReferenceOpen(false);
+  };
+
+  const handleHoldMouse = (book, chapter, verse, index) => {
+    setIsMouseHold(true);
+    setSource(book + ':' + chapter + ':' + verse + ':' + index);
+  };
+
+  const handleReleaseMouse = () => {
+    setIsMouseHold(false);
   };
 
   const handleReferrerVerseClick = (e, verseAddress) => {
@@ -309,9 +324,16 @@ export const App = () => {
                 <Card>
                   <CardContent>
                     <VersesSelector
+                      scribbleByWord={scribbleByWord}
+                      setScribble={setScribble}
                       clickedVerseAddress={clickedVerseAddress}
                       highlightsByVerse={highlightsByVerse}
+                      isMouseHold={isMouseHold}
                       handleVerseClick={handleReferrerVerseClick}
+                      handleHoldMouse={handleHoldMouse}
+                      handleReleaseMouse={handleReleaseMouse}
+                      source={source}
+                      destination={destination}
                     />
                   </CardContent>
                 </Card>

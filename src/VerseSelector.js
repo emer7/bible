@@ -22,10 +22,17 @@ export const VersesSelector = ({
   initialChapter,
   initialVerses,
   clickedVerseAddress = {},
+  isMouseHold,
   highlightsByVerse = {},
   handleVerseClick,
   handleVersesAddressChange = () => {},
+  handleHoldMouse,
+  handleReleaseMouse,
   buttonRender: RenderedButton,
+  scribbleByWord,
+  setScribble,
+  source,
+  destination,
 }) => {
   const [isFirstVerseSelection, setIsFirstVerseSelection] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -217,7 +224,14 @@ export const VersesSelector = ({
                   clickedVerseAddress.chapter === chapter &&
                   clickedVerseAddress.verse === verse
                 }
+                isMouseHold={isMouseHold}
                 handleVerseClick={handleVerseClick}
+                handleHoldMouse={handleHoldMouse}
+                handleReleaseMouse={handleReleaseMouse}
+                scribbleByWord={scribbleByWord}
+                setScribble={setScribble}
+                source={source}
+                destination={destination}
               />
             ))
           ) : (
